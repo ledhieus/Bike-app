@@ -2,3 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  .padding-layout {
+    @apply w-[1400px] m-auto;
+  }
+  .bg-bold{
+    @apply bg-[#142b30]
+  }
+}

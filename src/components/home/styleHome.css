@@ -1,0 +1,13 @@
+.swiper-button-next, .swiper-button-prev {
+  display: none;
+}
+.custom-prev,
+.custom-next {
+  opacity: 0; /* Ẩn mặc định */
+  transition: opacity 0.3s ease-in-out;
+}
+
+.group:hover .custom-prev,
+.group:hover .custom-next {
+  opacity: 1; /* Hiện khi hover */
+}
