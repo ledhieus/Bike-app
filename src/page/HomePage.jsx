@@ -8,7 +8,6 @@ const HomePage = () => {
   return (
     <>
       <div className="bg-[#f8f9fa]">
-        
         <Banner />
         <ListBrand />
         <ListProduct title="Sản phẩm mới" />
