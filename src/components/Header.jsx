@@ -1,11 +1,12 @@
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   return (
     <div className="bg-bold text-white text-[18px]">
       <div className="flex items-center justify-between padding-layout py-4">
-        <p className="text-[20px] font-bold">Thương hiệu</p>
+        <Link to={"/brands"}><p className="text-[20px] font-bold">Thương hiệu</p></Link>
         <div className="w-[130px]">
           <img src="https://bikelife.com.vn/wp-content/uploads/2023/08/logo-bikelife.png" />
         </div>

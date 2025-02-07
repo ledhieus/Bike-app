@@ -1,6 +1,20 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { getBrands } from "../service/brand";
 
 const BrandPage = () => {
+  const [brandAgency, setBrandAgency] = useState([])
+  const [brandDifferent, setBrandDifferent] = useState([])
+  useEffect(()=> {
+    const fetchApi = async ()=> {
+      const data = await getBrands("")
+      // let agency = []
+      // let different = []
+      setBrandAgency(data.filter(item => item.status==="agency")) 
+      setBrandDifferent(data.filter(item => item.status==="different"))
+    }
+    fetchApi()
+  }, [])
   return (
     <div className="bg-[#f8f9fa]">
       <div className="bg-[url('https://bikelife.com.vn/wp-content/uploads/2021/09/bikes-page-title.jpg')] py-10">
@@ -21,12 +35,9 @@ const BrandPage = () => {
             </div>
 
             <div className="grid grid-cols-3 gap-10 px-4">
-              <img src="https://bikelife.com.vn/wp-content/uploads/2024/06/brand-vision.jpg" />
-              <img src="https://bikelife.com.vn/wp-content/uploads/2024/01/brand-supacaz.jpg" />
-              <img src="https://bikelife.com.vn/wp-content/uploads/2024/06/brand-vision.jpg" />
-              <img src="https://bikelife.com.vn/wp-content/uploads/2024/06/brand-vision.jpg" />
-              <img src="https://bikelife.com.vn/wp-content/uploads/2024/06/brand-vision.jpg" />
-              <img src="https://bikelife.com.vn/wp-content/uploads/2024/06/brand-vision.jpg" />
+              {brandAgency.map(item=> (
+                <Link key={item.id} to={`/brand/${item.slug}`}><img src={item.image} /></Link>
+              ))}
             </div>
           </div>
           <div>
@@ -39,14 +50,9 @@ const BrandPage = () => {
             </div>
 
             <div className="grid grid-cols-4 gap-10 px-4">
-              <img src="https://bikelife.com.vn/wp-content/uploads/2024/01/brand-pro.jpg" />
-              <img src="https://bikelife.com.vn/wp-content/uploads/2024/01/brand-Camelbak.jpg" />
-              <img src="https://bikelife.com.vn/wp-content/uploads/2024/01/brand-Camelbak.jpg" />
-              <img src="https://bikelife.com.vn/wp-content/uploads/2024/01/brand-srm.jpg" />
-              <img src="https://bikelife.com.vn/wp-content/uploads/2024/01/brand-srm.jpg" />
-              <img src="https://bikelife.com.vn/wp-content/uploads/2024/01/brand-Camelbak.jpg" />
-              <img src="https://bikelife.com.vn/wp-content/uploads/2024/01/brand-Camelbak.jpg" />
-              <img src="https://bikelife.com.vn/wp-content/uploads/2024/01/brand-pro.jpg" /> 
+              {brandDifferent.map(item=> (
+                <Link key={item.id} to={`/brand/${item.slug}`}><img src={item.image} /></Link>
+              ))}
             </div>
           </div>
         </div>

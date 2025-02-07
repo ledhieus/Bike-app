@@ -1,22 +1,23 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation } from "swiper/modules";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import "swiper/css";
 import "swiper/css/navigation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons";
+import { getBrands } from "../../service/brand";
+import { Link } from "react-router-dom";
 
 const ListBrand = () => {
-  const swiperRef = useRef(null); 
-
-  const images = [
-    "https://bikelife.com.vn/wp-content/uploads/2024/01/brand-supacaz.jpg",
-    "https://bikelife.com.vn/wp-content/uploads/2024/06/brand-argon18.jpg",
-    "https://bikelife.com.vn/wp-content/uploads/2024/06/brand-fsa.jpg",
-    "https://bikelife.com.vn/wp-content/uploads/2024/06/brand-argon18.jpg",
-    "https://bikelife.com.vn/wp-content/uploads/2024/06/brand-fsa.jpg",
-    "https://bikelife.com.vn/wp-content/uploads/2024/01/brand-supacaz.jpg",
-  ];
+  const swiperRef = useRef(null);
+  const [brandAgency, setBrandAgency] = useState([]);
+  useEffect(() => {
+    const fetchApi = async () => {
+      const data = await getBrands("");
+      setBrandAgency(data.filter((item) => item.status === "agency"));
+    };
+    fetchApi();
+  }, []);
 
   useEffect(() => {
     if (swiperRef.current) {
@@ -41,13 +42,14 @@ const ListBrand = () => {
             autoplay={{ delay: 4000, disableOnInteraction: false }}
             grabCursor={true}
           >
-            {images.map((src, index) => (
-              <SwiperSlide key={index}>
-                <img
-                  src={src}
-                  alt={`Slide ${index + 1}`}
-                  className="w-full h-full object-cover rounded-lg"
-                />
+            {brandAgency.map((item) => (
+              <SwiperSlide key={item.id}>
+                <Link to={`/brand/${item.slug}`}>
+                  <img
+                    src={item.image}
+                    className="w-full h-full object-cover rounded-lg"
+                  />
+                </Link>
               </SwiperSlide>
             ))}
           </Swiper>
