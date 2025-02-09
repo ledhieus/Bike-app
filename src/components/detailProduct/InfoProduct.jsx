@@ -1,29 +1,53 @@
-const InfoProduct = () => {
+import { currencyFormatter } from "../../helper/formatNumber";
+
+/* eslint-disable react/prop-types */
+const InfoProduct = ({ detailProduct, detailBrand }) => {
+  const sub = detailProduct?.sub;
+
   return (
     <div className="space-y-4">
       <p className="text-[24px] font-normal border-b-[1px] pb-4">
-        THERABODY Thiết Bị Cúp Giác Hơi TheraCup Giảm Đau Nhức,Tăng tuần hoàn
-        máu, 3 Mức Cường Độ Nhiệt và Rung
+        {detailProduct?.name}
       </p>
-      <p className=" text-[#dd0000] font-medium text-[22px]">3,990,000 ₫</p>
-      <ul className="list-disc pl-5  space-y-4">
-        <li>
-          <span className="font-medium">Tình trạng: </span> Mới 100%
-        </li>
-        <li>
-          <span className="font-medium">Xuất xứ: </span>Chính hãng
-        </li>
-        <li>
-          <span className="font-medium">Bảo hành: </span>12 tháng chính hãng
-        </li>
-        <li>
-          <span className="font-medium">Thương hiệu: </span>Therabody
-        </li>
-        <li>
-          <span className="font-medium">Trọng lượng:</span> 330g
-        </li>
+      {detailProduct?.discount ? (
+        <>
+          <div className="flex gap-2 items-center">
+            <p className=" text-[#dd0000] font-medium text-[22px] line-through">
+              {currencyFormatter(detailProduct?.price)}
+            </p>
+            <p className=" text-[#dd0000] font-medium text-[22px]">
+              {currencyFormatter(
+                Math.floor(
+                  detailProduct?.price * (1 - detailProduct?.discount / 100)
+                )
+              )}
+            </p>
+            <p className="bg-[#89c91e] px-2 text-white font-medium text-[18px]">{detailProduct?.discount}%</p>
+          </div>
+        </>
+      ) : (
+        <>
+          {" "}
+          <p className=" text-[#dd0000] font-medium text-[22px]">
+            {currencyFormatter(detailProduct?.price)}
+          </p>
+        </>
+      )}
+
+      <ul className="list-disc pl-5 space-y-4">
+        {sub?.map((item, index) => (
+          <li key={index}>
+            {item.title && item.value ? (
+              <>
+                {item.title}: {item.value}
+              </>
+            ) : (
+              item
+            )}
+          </li>
+        ))}
       </ul>
-      <div>
+      {/* <div>
         <p className="px-4 text-[24px] font-bold border-l-[2px] border-l-[#89c91e] mb-4">
           Tính năng nổi bật
         </p>
@@ -36,13 +60,28 @@ const InfoProduct = () => {
           </li>
           <li>Tự động tắt sau 3 phút sử dụng liên tục</li>
         </ul>
-      </div>
+      </div> */}
       <div className="flex items-center gap-4">
         <p className="font-medium">Thương hiệu</p>
         <p className="px-2 py-1 border border-[#29a745] uppercase rounded-md  cursor-pointer">
-          Therabody
+          {detailBrand?.name}
         </p>
       </div>
+      {detailProduct?.size && (
+        <div>
+          <p className="mb-2 font-bold">Kích thước:</p>
+          <div className="flex items-center gap-2">
+            {detailProduct?.size.map((item, index) => (
+              <p
+                key={index}
+                className="px-2 py-1 border font-medium w-fit rounded-lg cursor-pointer"
+              >
+                {item}
+              </p>
+            ))}
+          </div>
+        </div>
+      )}
       <div className="flex items-center gap-4 ">
         <div className="flex items-center border-2">
           <span className="p-2  cursor-pointer">-</span>

@@ -8,7 +8,7 @@ const Header = () => {
       <div className="flex items-center justify-between padding-layout py-4">
         <Link to={"/brands"}><p className="text-[20px] font-bold">Thương hiệu</p></Link>
         <div className="w-[130px]">
-          <img src="https://bikelife.com.vn/wp-content/uploads/2023/08/logo-bikelife.png" />
+          <Link to={"/"}><img src="https://bikelife.com.vn/wp-content/uploads/2023/08/logo-bikelife.png" /></Link>
         </div>
         <div className="flex items-center gap-3">
           <p>Việt Nam</p>
