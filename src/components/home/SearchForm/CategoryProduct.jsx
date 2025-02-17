@@ -6,6 +6,7 @@ import {
   faBars,
   faChevronDown,
 } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
 
 const CategoryProduct = () => {
   const [categoryList, setCategoryList] = useState([]);
@@ -37,14 +38,16 @@ const CategoryProduct = () => {
           {categoryList.map((item) => (
             <div
               key={item.id}
-              className="flex items-center justify-between uppercase px-4 py-2 border-b-[1px] hover:bg-[#e4e5e6]"
+              className="uppercase px-4 py-2 border-b-[1px] hover:bg-[#e4e5e6]"
               onMouseEnter={() => {
                 setHoveredCategory(item);
                 setIsHovering(true);
               }}
             >
-              <p className="font-medium">{item.name}</p>
-              <FontAwesomeIcon icon={faAngleRight} />
+              <Link to={`/category/${item.slug}`} className="flex items-center justify-between">
+                <p className="font-medium">{item.name}</p>
+                <FontAwesomeIcon icon={faAngleRight} />
+              </Link>
             </div>
           ))}
           {hoveredCategory &&

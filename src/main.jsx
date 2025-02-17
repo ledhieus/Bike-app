@@ -5,6 +5,8 @@ import RootLayout from './page/RootLayout'
 import HomePage from './page/HomePage'
 import DetailProductPage from './page/DetailProductPage'
 import BrandPage from './page/BrandPage'
+import BrandSlug from './page/BrandSlug'
+import CategoryPage from './page/CategoryPage'
 
 const router = createBrowserRouter([
   {
@@ -21,6 +23,14 @@ const router = createBrowserRouter([
       {
         path: "/brands",
         element: <BrandPage/>
+      },
+      {
+        path: "/brands/:slugNameBrand",
+        element: <BrandSlug/>
+      },
+      {
+        path: "/category/:slugNameCategory",
+        element: <CategoryPage/>
       }
     ]
   }

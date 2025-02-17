@@ -36,7 +36,7 @@ const BrandPage = () => {
 
             <div className="grid grid-cols-3 gap-10 px-4">
               {brandAgency.map(item=> (
-                <Link key={item.id} to={`/brand/${item.slug}`}><img src={item.image} /></Link>
+                <Link key={item.id} to={`/brands/${item.slug}`}><img src={item.image} /></Link>
               ))}
             </div>
           </div>
@@ -51,7 +51,7 @@ const BrandPage = () => {
 
             <div className="grid grid-cols-4 gap-10 px-4">
               {brandDifferent.map(item=> (
-                <Link key={item.id} to={`/brand/${item.slug}`}><img src={item.image} /></Link>
+                <Link key={item.id} to={`/brands/${item.slug}`}><img src={item.image} /></Link>
               ))}
             </div>
           </div>

@@ -44,7 +44,7 @@ const ListBrand = () => {
           >
             {brandAgency.map((item) => (
               <SwiperSlide key={item.id}>
-                <Link to={`/brand/${item.slug}`}>
+                <Link to={`/brands/${item.slug}`}>
                   <img
                     src={item.image}
                     className="w-full h-full object-cover rounded-lg"
