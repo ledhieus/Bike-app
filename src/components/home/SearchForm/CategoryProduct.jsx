@@ -12,6 +12,7 @@ const CategoryProduct = () => {
   const [categoryList, setCategoryList] = useState([]);
   const [hoveredCategory, setHoveredCategory] = useState(null);
   const [isHovering, setIsHovering] = useState(false);
+  const [parentSlug, setParentSlug] = useState("")
   useEffect(() => {
     const fetchApi = async () => {
       const data = await getCategory("");
@@ -42,9 +43,13 @@ const CategoryProduct = () => {
               onMouseEnter={() => {
                 setHoveredCategory(item);
                 setIsHovering(true);
+                setParentSlug(item.slug)
               }}
             >
-              <Link to={`/category/${item.slug}`} className="flex items-center justify-between">
+              <Link
+                to={`/category/${item.slug}`}
+                className="flex items-center justify-between"
+              >
                 <p className="font-medium">{item.name}</p>
                 <FontAwesomeIcon icon={faAngleRight} />
               </Link>
@@ -61,18 +66,32 @@ const CategoryProduct = () => {
                 <div className="h-fit grid grid-cols-3 gap-4">
                   {hoveredCategory.children.map((item) => (
                     <div key={item.id}>
-                      <p className="font-medium text-slate-800 text-[18px] mb-1 hover:text-[#89c91e]">
-                        {item.name}
-                      </p>
+                      {item.children.length > 0 ? (
+                        <>
+                          <p className="font-medium text-slate-800 text-[18px] mb-1 hover:text-[#89c91e]">
+                            {item.name}
+                          </p>
+                        </>
+                      ) : (
+                        <>
+                          <Link to={`/category/${parentSlug}/${item.slug}`}>
+                            <p className="font-medium text-slate-800 text-[18px] mb-1 hover:text-[#89c91e]">
+                              {item.name}
+                            </p>
+                          </Link>
+                        </>
+                      )}
                       {item.children.length > 0 && (
                         <div>
                           {item.children.map((itemChildren) => (
-                            <p
+                            <Link
                               key={itemChildren.id}
-                              className="hover:text-[#89c91e]"
+                              to={`/category/${parentSlug}/${itemChildren.slug}`}
                             >
-                              {itemChildren.name}
-                            </p>
+                              <p className="hover:text-[#89c91e]">
+                                {itemChildren.name}
+                              </p>
+                            </Link>
                           ))}
                         </div>
                       )}

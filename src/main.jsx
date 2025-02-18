@@ -7,6 +7,8 @@ import DetailProductPage from './page/DetailProductPage'
 import BrandPage from './page/BrandPage'
 import BrandSlug from './page/BrandSlug'
 import CategoryPage from './page/CategoryPage'
+import CategoryChildrenPage from './page/CategoryChildrenPage'
+import SearchPage from './page/SearchPage'
 
 const router = createBrowserRouter([
   {
@@ -31,6 +33,14 @@ const router = createBrowserRouter([
       {
         path: "/category/:slugNameCategory",
         element: <CategoryPage/>
+      },
+      {
+        path: "/category/:slugNameCategory/:slugCategoryChildren",
+        element: <CategoryChildrenPage/>
+      },
+      {
+        path: "/search/:slugSearch",
+        element: <SearchPage/>
       }
     ]
   }
