@@ -1,50 +1,54 @@
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import RootLayout from './page/RootLayout'
-import HomePage from './page/HomePage'
-import DetailProductPage from './page/DetailProductPage'
-import BrandPage from './page/BrandPage'
-import BrandSlug from './page/BrandSlug'
-import CategoryPage from './page/CategoryPage'
-import CategoryChildrenPage from './page/CategoryChildrenPage'
-import SearchPage from './page/SearchPage'
+import { createRoot } from "react-dom/client";
+import "./index.css";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import RootLayout from "./page/RootLayout";
+import HomePage from "./page/HomePage";
+import DetailProductPage from "./page/DetailProductPage";
+import BrandPage from "./page/BrandPage";
+import BrandSlug from "./page/BrandSlug";
+import CategoryPage from "./page/CategoryPage";
+import CategoryChildrenPage from "./page/CategoryChildrenPage";
+import SearchPage from "./page/SearchPage";
+import { Provider } from "react-redux";
+import { store } from "./redux/store";
 
 const router = createBrowserRouter([
   {
-    element: <RootLayout/>,
+    element: <RootLayout />,
     children: [
       {
         path: "/",
-        element: <HomePage/>
+        element: <HomePage />,
       },
       {
         path: "/product/:slugProduct",
-        element: <DetailProductPage/>
+        element: <DetailProductPage />,
       },
       {
         path: "/brands",
-        element: <BrandPage/>
+        element: <BrandPage />,
       },
       {
         path: "/brands/:slugNameBrand",
-        element: <BrandSlug/>
+        element: <BrandSlug />,
       },
       {
         path: "/category/:slugNameCategory",
-        element: <CategoryPage/>
+        element: <CategoryPage />,
       },
       {
         path: "/category/:slugNameCategory/:slugCategoryChildren",
-        element: <CategoryChildrenPage/>
+        element: <CategoryChildrenPage />,
       },
       {
         path: "/search/:slugSearch",
-        element: <SearchPage/>
-      }
-    ]
-  }
-])
-createRoot(document.getElementById('root')).render(
-  <RouterProvider router={router}/>
-)
+        element: <SearchPage />,
+      },
+    ],
+  },
+]);
+createRoot(document.getElementById("root")).render(
+  <Provider store={store}>
+    <RouterProvider router={router} />
+  </Provider>
+);

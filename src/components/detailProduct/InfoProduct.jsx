@@ -1,8 +1,72 @@
+import { useState } from "react";
 import { currencyFormatter } from "../../helper/formatNumber";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../../redux/slices/shoppingCart";
+import CartDrawer from "../CartDrawer";
+import { updatePrice } from "../../redux/slices/totalPrice";
 
 /* eslint-disable react/prop-types */
 const InfoProduct = ({ detailProduct, detailBrand }) => {
   const sub = detailProduct?.sub;
+  const [quantity, setQuantity] = useState(1);
+  const [activeSize, setActiveSize] = useState(null);
+  const dispatch = useDispatch();
+  const [open, setOpen] = useState(false);
+
+  const showDrawer = () => {
+    setOpen(true);
+  };
+
+  const onClose = () => {
+    setOpen(false);
+  };
+
+  const handleDown = () => {
+    setQuantity((prev) => Math.max(1, prev - 1));
+  };
+
+  const handleUp = () => {
+    setQuantity((prev) => prev + 1);
+  };
+
+  const handleOnChange = (e) => {
+    const value = e.target.value;
+
+    if (value === "") {
+      setQuantity(value);
+      return;
+    }
+    const numberValue = parseInt(value, 10);
+    if (!isNaN(numberValue) && numberValue > 0) {
+      setQuantity(numberValue);
+    }
+  };
+
+  const handleOnBlur = () => {
+    if (quantity === "" || quantity < 1) {
+      setQuantity(1);
+    }
+  };
+  const handleAddToCart = () => {
+    const infoProduct = {
+      nameProduct: detailProduct.name,
+      priceProduct: detailProduct.price * (1 - (detailProduct.discount)/100),
+      idProduct: detailProduct.id,
+      quantityProduct: quantity,
+      imagesProduct: detailProduct.image,
+      sizeProduct: activeSize || "",
+    };
+    if (detailProduct.size && !infoProduct.sizeProduct) {
+      alert(
+        "Chọn các tùy chọn cho sản phẩm trước khi cho sản phẩm vào giỏ hàng của bạn."
+      );
+      return;
+    }
+    dispatch(addToCart(infoProduct));
+    dispatch(updatePrice(infoProduct))
+    showDrawer();
+    setActiveSize(null)
+  };
 
   return (
     <div className="space-y-4">
@@ -22,7 +86,9 @@ const InfoProduct = ({ detailProduct, detailBrand }) => {
                 )
               )}
             </p>
-            <p className="bg-[#89c91e] px-2 text-white font-medium text-[18px]">{detailProduct?.discount}%</p>
+            <p className="bg-[#89c91e] px-2 text-white font-medium text-[18px]">
+              {detailProduct?.discount}%
+            </p>
           </div>
         </>
       ) : (
@@ -47,20 +113,6 @@ const InfoProduct = ({ detailProduct, detailBrand }) => {
           </li>
         ))}
       </ul>
-      {/* <div>
-        <p className="px-4 text-[24px] font-bold border-l-[2px] border-l-[#89c91e] mb-4">
-          Tính năng nổi bật
-        </p>
-        <ul className="list-disc pl-5 space-y-4">
-          <li>Hút giảm áp với 3 mức cường độ (30 kpa, 40 kpa, 50 kPa)</li>
-          <li>Liệu pháp nhiệt với 3 mức cường độ (41C, 43C, 45C)</li>
-          <li>Liệu pháp rung với 3 mức cường độ (Thấp, Cao và Sóng)</li>
-          <li>
-            3 cốc trong suốt có thể thay đổi – (đường kính 35mm, 45mm, và 55mm)
-          </li>
-          <li>Tự động tắt sau 3 phút sử dụng liên tục</li>
-        </ul>
-      </div> */}
       <div className="flex items-center gap-4">
         <p className="font-medium">Thương hiệu</p>
         <p className="px-2 py-1 border border-[#29a745] uppercase rounded-md  cursor-pointer">
@@ -69,12 +121,17 @@ const InfoProduct = ({ detailProduct, detailBrand }) => {
       </div>
       {detailProduct?.size && (
         <div>
-          <p className="mb-2 font-bold">Kích thước:</p>
+          <p className="mb-2 font-bold">
+            Kích thước: <span className="text-blue-400">{activeSize}</span>
+          </p>
           <div className="flex items-center gap-2">
             {detailProduct?.size.map((item, index) => (
               <p
                 key={index}
-                className="px-2 py-1 border font-medium w-fit rounded-lg cursor-pointer"
+                className={`px-2 py-1 border font-medium w-fit rounded-lg cursor-pointer ${
+                  activeSize === item ? "border-black" : ""
+                }`}
+                onClick={() => setActiveSize(item)}
               >
                 {item}
               </p>
@@ -84,20 +141,31 @@ const InfoProduct = ({ detailProduct, detailBrand }) => {
       )}
       <div className="flex items-center gap-4 ">
         <div className="flex items-center border-2">
-          <span className="p-2  cursor-pointer">-</span>
+          <span className="p-2  cursor-pointer" onClick={handleDown}>
+            -
+          </span>
           <input
             type="number"
-            value={1}
-            className="text-center border-x-2 outline-none p-2 w-[30px]"
+            value={quantity}
+            className="text-center border-x-2 outline-none p-2 w-[40px]"
+            onChange={handleOnChange}
+            onBlur={handleOnBlur}
+            min="1"
           />
-          <span className="p-2  cursor-pointer">+</span>
+          <span className="p-2  cursor-pointer" onClick={handleUp}>
+            +
+          </span>
         </div>
-        <div className="bg-[#dd0000] text-white uppercase text-[14px] font-bold px-2 py-3 cursor-pointer">
+        <div
+          className="bg-[#dd0000] text-white uppercase text-[14px] font-bold px-2 py-3 cursor-pointer"
+          onClick={handleAddToCart}
+        >
           Thêm vào giỏ hàng
         </div>
         <div className="bg-[#28a745] hover:bg-[#3b9d52] text-white uppercase text-[14px] font-bold px-2 py-3 cursor-pointer">
           Mua ngay
         </div>
+        <CartDrawer onClose={onClose} open={open} />
       </div>
     </div>
   );
