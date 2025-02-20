@@ -11,6 +11,7 @@ import CategoryChildrenPage from "./page/CategoryChildrenPage";
 import SearchPage from "./page/SearchPage";
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
+import CartPage from "./page/CartPage";
 
 const router = createBrowserRouter([
   {
@@ -43,6 +44,10 @@ const router = createBrowserRouter([
       {
         path: "/search/:slugSearch",
         element: <SearchPage />,
+      },
+      {
+        path: "/cart",
+        element: <CartPage />,
       },
     ],
   },

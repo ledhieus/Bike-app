@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faX } from "@fortawesome/free-solid-svg-icons";
 import { removeCart } from "../redux/slices/shoppingCart";
 import { resetPrice } from "../redux/slices/totalPrice";
+import { Link } from "react-router-dom";
 
 const CartDrawer = ({ onClose, open }) => {
   const cartItems = useSelector((state) => state.shoppingCart.cartItemList);
@@ -24,7 +25,7 @@ const CartDrawer = ({ onClose, open }) => {
             <p  className="font-bold text-green-700 text-[22px]">{currencyFormatter(totalPrice)}</p>
           </div>
           <div className="flex flex-col gap-4">
-          <button className="bg-gray-100 font-medium text-black uppercase py-3 hover:bg-gray-200">Xem Giỏ hàng</button>
+          <Link to={"/cart"}><button className="bg-gray-100 font-medium text-black uppercase py-3 hover:bg-gray-200">Xem Giỏ hàng</button></Link>
           <button className="bg-red-700 font-medium text-white uppercase py-3">Thanh toán</button>
           </div>
         </div>

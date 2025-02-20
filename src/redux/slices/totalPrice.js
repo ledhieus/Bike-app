@@ -17,8 +17,18 @@ export const totalPriceSlice = createSlice({
       const totalPrice = state.totalPrice - quantityProduct * priceProduct;
       state.totalPrice = totalPrice;
     },
+    upPrice: (state, action) => {
+      const { priceProduct } = action.payload;
+      const totalPrice = state.totalPrice + priceProduct;
+      state.totalPrice = totalPrice;
+    },
+    downPrice: (state, action) => {
+      const { priceProduct } = action.payload;
+      const totalPrice = state.totalPrice -  priceProduct;
+      state.totalPrice = totalPrice;
+    },
   },
 });
 
-export const { updatePrice, resetPrice } = totalPriceSlice.actions;
+export const { updatePrice, resetPrice, upPrice, downPrice } = totalPriceSlice.actions;
 export default totalPriceSlice.reducer;

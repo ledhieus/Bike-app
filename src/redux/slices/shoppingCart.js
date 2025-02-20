@@ -24,9 +24,17 @@ export const shoppingCartSlice = createSlice({
         return stringState !== string
       })
       state.cartItemList = updateCart
+    },
+    updateCart:(state, action)=> {
+      const {idProduct, quantityProduct, sizeProduct} = action.payload
+      console.log(action.payload)
+      const existingCartIndex = state.cartItemList.findIndex(item => item.idProduct === idProduct && item.sizeProduct === sizeProduct)
+      if (existingCartIndex !== -1) {
+        state.cartItemList[existingCartIndex].quantityProduct = quantityProduct;
+      }
     }
   }
 })
 
-export const {addToCart, removeCart} = shoppingCartSlice.actions;
+export const {addToCart, removeCart, updateCart} = shoppingCartSlice.actions;
 export default shoppingCartSlice.reducer;
