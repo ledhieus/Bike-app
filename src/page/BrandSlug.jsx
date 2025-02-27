@@ -11,7 +11,7 @@ const BrandSlug = () => {
   const [brandId, setBrandId] = useState(null);
   useEffect(() => {
     const fetchApi = async () => {
-      const data = await getBrands(`/detail/${slugNameBrand}`);
+      const data = await getBrands(`/detail-slug/${slugNameBrand}`);
       if(data.code===200){
         setBrandId(data.data._id)
       }
