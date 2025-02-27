@@ -4,23 +4,37 @@ import ImageProduct from "./ImageProduct";
 import InfoProduct from "./InfoProduct";
 import { getBrands } from "../../service/brand";
 
-const DetailProduct = ({detailProduct}) => {
-  const [detailBrand, setDetailBrand] = useState([])
-  useEffect(()=> {
+const DetailProduct = ({ detailProduct }) => {
+  const [detailBrand, setDetailBrand] = useState([]);
+  useEffect(() => {
     const fetchApi = async () => {
-      const idBrand = detailProduct?.brand
-      const data = await getBrands(`?id=${idBrand}`)
-      setDetailBrand(data)
-    }
-    fetchApi()
-  }, [detailProduct?.brand])
-  
+      const idBrand = detailProduct?.brandId;
+      const data = await getBrands(`/detail/${idBrand}`);
+      if (data.code === 200) {
+        setDetailBrand(data.data);
+      }
+    };
+    fetchApi();
+  }, [detailProduct?.brandId]);
+
   return (
     <div className="padding-layout py-5">
-      <div className="grid grid-cols-2 gap-6">
-        <ImageProduct imageDetail={detailProduct?.image}/>
-        <InfoProduct detailProduct={detailProduct} detailBrand={detailBrand[0] || []}/>
+      <div className="grid grid-cols-2 gap-8">
+        <ImageProduct imageDetail={detailProduct?.image} />
+        <InfoProduct
+          detailProduct={detailProduct}
+          detailBrand={detailBrand}
+        />
       </div>
+      {detailProduct.description !== "" && (
+        <>
+          <p className="text-[30px] px-2 py-6 border-t-2 border-t-green-500 mt-10 w-fit">Mô Tả</p>
+          <div
+            dangerouslySetInnerHTML={{ __html: detailProduct.description }}
+            className="text-[18px] px-2"
+          />
+        </>
+      )}
     </div>
   );
 };

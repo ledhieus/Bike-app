@@ -7,11 +7,11 @@ const BrandPage = () => {
   const [brandDifferent, setBrandDifferent] = useState([])
   useEffect(()=> {
     const fetchApi = async ()=> {
-      const data = await getBrands("")
-      // let agency = []
-      // let different = []
-      setBrandAgency(data.filter(item => item.status==="agency")) 
-      setBrandDifferent(data.filter(item => item.status==="different"))
+      const data = await getBrands("?page=1&limit=20")
+      if(data.code === 200 ){
+        setBrandAgency(data.data.filter(item => item.type==="agency")) 
+        setBrandDifferent(data.data.filter(item => item.type==="other"))
+      }
     }
     fetchApi()
   }, [])

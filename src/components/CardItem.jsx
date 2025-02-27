@@ -8,7 +8,7 @@ const CardItem = ({ product }) => {
   return (
     <Link to={`/product/${product?.slug}`}>
       <div className="bg-white shadow-lg relative group/card">
-        <div className="relative w-full h-[260px]">
+        <div className="relative w-full h-[250px]">
           <img
             src={product?.image[0]}
             className="w-full h-full transition-opacity duration-500 ease-in-out group-hover/card:opacity-0 object-cover"
@@ -42,7 +42,7 @@ const CardItem = ({ product }) => {
           )}
         </div>
         <div className="flex flex-col gap-2 absolute top-0 left-0 w-fit">
-          {product?.discount && (
+          {product?.discount !== 0 && (
             <div className="bg-[#89c91e] text-white uppercase font-medium w-full text-[13px] px-2 py-1 text-center">
               {product?.discount}%
             </div>

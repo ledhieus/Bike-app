@@ -7,23 +7,27 @@ import CardItem from "../components/CardItem";
 
 const BrandSlug = () => {
   const { slugNameBrand } = useParams();
-  const [infoBrand, setInfoBrand] = useState([]);
   const [productList, setProductList] = useState([]);
+  const [brandId, setBrandId] = useState(null);
   useEffect(() => {
     const fetchApi = async () => {
-      const data = await getBrands(`?slug=${slugNameBrand}`);
-      setInfoBrand(data);
+      const data = await getBrands(`/detail/${slugNameBrand}`);
+      if(data.code===200){
+        setBrandId(data.data._id)
+      }
     };
     fetchApi();
-  }, [slugNameBrand, setInfoBrand]);
+  }, [slugNameBrand]);
   useEffect(() => {
-    if (infoBrand.length === 0) return;
+    if (brandId === null) return;
     const fetchApi = async () => {
-      const data = await getProduct(`?brand=${infoBrand[0]?.id}`);
-      setProductList(data);
+      const data = await getProduct(`?brandId=${brandId}`);
+      if(data.code===200){
+        setProductList(data.data)
+      }
     };
     fetchApi();
-  }, [infoBrand]);
+  }, [brandId]);
   return (
     <div>
       <MiniBanner title={slugNameBrand} />
@@ -33,7 +37,9 @@ const BrandSlug = () => {
             <Link to={"/"}>
               <span className="text-gray-500 hover:text-black">Trang chủ </span>
             </Link>
-            <span className="text-gray-500">/ Thương hiệu </span>
+            <Link to={"/brands"}>
+            <span className="text-gray-500  hover:text-black">/ Thương hiệu </span>
+            </Link>
             <span className="uppercase">/ {slugNameBrand}</span>
           </p>
           <div>
@@ -41,7 +47,7 @@ const BrandSlug = () => {
               <>
                 <div className="grid grid-cols-5 py-10 gap-6">
                   {productList.map((item) => (
-                    <CardItem key={item.id} product={item} />
+                    <CardItem key={item._id} product={item} />
                   ))}
                 </div>
               </>

@@ -8,38 +8,40 @@ import { currencyFormatter } from "../../../helper/formatNumber";
 import { Link, useNavigate } from "react-router-dom";
 
 const SearchForm = () => {
-  const [productList, setProductList] = useState([]);
+  // const [productList, setProductList] = useState([]);
   const [isShowingSuccess, setIsShowingSuccess] = useState(false);
   const [productSuccessList, setProductSuccessList] = useState([]);
-  const [valueSearch, setValueSearch] = useState("")
-  const navigate = useNavigate()
+  const [valueSearch, setValueSearch] = useState("");
+  const [url, setUrl] = useState("");
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchApi = async () => {
-      const data = await getProduct("");
-      console.log(data);
-      setProductList(data);
+      if (url === "") return;
+      const data = await getProduct(`/search/${url}`);
+      if (data.code === 200) {
+        setProductSuccessList(data.data);
+      }
+      // setProductList(data);
     };
     fetchApi();
-  }, []);
+  }, [url]);
   const handleOnChange = (e) => {
     const value = e.target.value.trim().toLowerCase();
     const slug = removeVietnameseTones(value).split(" ").join("-");
+    console.log(slug);
     if (value === "") {
       setIsShowingSuccess(false);
     } else {
-      const successList = productList.filter((item) =>
-        item.slug.includes(slug)
-      );
-      setProductSuccessList(successList);
+      setUrl(slug);
       setIsShowingSuccess(true);
-      setValueSearch(value)
+      setValueSearch(value);
     }
     console.log(slug);
   };
   const handleClick = () => {
-    navigate(`/search/${valueSearch}`)
-    setIsShowingSuccess(false)
-  }
+    navigate(`/search/${valueSearch}`);
+    setIsShowingSuccess(false);
+  };
   return (
     <div className="bg-[#f8f9fa]">
       <div className="padding-layout">
@@ -53,17 +55,28 @@ const SearchForm = () => {
                 placeholder="Tìm kiếm sản phẩm"
                 onChange={handleOnChange}
               />
-              <FontAwesomeIcon icon={faSearch} className="pl-4 cursor-pointer" onClick={handleClick}/>
+              <FontAwesomeIcon
+                icon={faSearch}
+                className="pl-4 cursor-pointer"
+                onClick={handleClick}
+              />
             </div>
             {isShowingSuccess && productSuccessList.length > 0 && (
               <div className="bg-white h-[300px] w-full absolute top-[45px] z-[99] shadow-lg overflow-y-auto">
                 <div className="grid grid-cols-2 gap-4 p-4">
-                  {productSuccessList.map(item=> (
-                    <Link to={`/product/${item.slug}`} key={item.id} className="flex items-center gap-2 bg-white" onClick={()=> setIsShowingSuccess(false)}>
-                      <img src={item.image[0]} className="w-[100px]"/>
+                  {productSuccessList.map((item) => (
+                    <Link
+                      to={`/product/${item.slug}`}
+                      key={item._id}
+                      className="flex items-center gap-2 bg-white"
+                      onClick={() => setIsShowingSuccess(false)}
+                    >
+                      <img src={item.image[0]} className="w-[100px]" />
                       <div>
                         <p className="font-medium">{item.name}</p>
-                        <p className="text-red-600">{currencyFormatter(item.price)}</p>
+                        <p className="text-red-600">
+                          {currencyFormatter(item.price)}
+                        </p>
                       </div>
                     </Link>
                   ))}

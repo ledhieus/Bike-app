@@ -5,6 +5,7 @@ import { faX } from "@fortawesome/free-solid-svg-icons";
 import { currencyFormatter } from "../helper/formatNumber";
 import { removeCart, updateCart } from "../redux/slices/shoppingCart";
 import { downPrice, resetPrice, upPrice } from "../redux/slices/totalPrice";
+import { Link } from "react-router-dom";
 
 const CartPage = () => {
   const cartItems = useSelector((state) => state.shoppingCart.cartItemList);
@@ -58,97 +59,119 @@ const CartPage = () => {
     <div>
       <CartMiniBanner activePage="giỏ hàng" />
       <div className="padding-layout">
-        {cartItems && cartItems.length > 0 ? <><div className="flex px-4 gap-6 mt-6 mb-6">
-          <table className="table-auto w-full border-collapse flex-[2]">
-            <thead>
-              <tr className="border-b">
-                <th className="p-2">Xóa</th>
-                <th className="p-2 w-[100px] text-left">Hình ảnh</th>
-                <th className="p-2 w-[425px] text-left">Sản phẩm</th>
-                <th className="p-2 w-[100px] text-left">Giá</th>
-                <th className="p-2">Số lượng</th>
-                <th className="p-2">Tạm tính</th>
-              </tr>
-            </thead>
-            <tbody>
-              {cartItems &&
-                cartItems.map((item) => (
-                  <tr key={item.idProduct} className="border-b">
-                    <td className="p-2 text-center">
-                      <FontAwesomeIcon
-                        icon={faX}
-                        className="text-[12px] cursor-pointer"
-                        onClick={() => {
-                          const string = item.idProduct + item.sizeProduct;
-                          dispatch(removeCart(string));
-                          dispatch(resetPrice(item));
-                        }}
-                      />
-                    </td>
-                    <td className="p-2">
-                      <img
-                        src={item.imagesProduct[0]}
-                        alt="Sản phẩm"
-                        className="w-[80px] h-auto"
-                      />
-                    </td>
-                    <td className="p-2">{item.nameProduct}</td>
-                    <td className="p-2 text-gray-500">
-                      {currencyFormatter(item.priceProduct)}
-                    </td>
-                    <td className="p-2 w-[100px]">
-                      <div className="flex items-center border rounded w-fit">
-                        <span
-                          className="p-2 cursor-pointer"
-                          onClick={() => handleDown(item.idProduct)}
-                        >
-                          -
-                        </span>
-                        <input
-                          type="number"
-                          value={item.quantityProduct}
-                          className="text-center border-x outline-none w-[40px]"
-                          onChange={(e) => handleOnChange(e, item.idProduct)}
-                          onBlur={() => handleOnBlur(item.idProduct)}
-                          min="1"
-                        />
-                        <span
-                          className="p-2 cursor-pointer"
-                          onClick={() => handleUp(item.idProduct)}
-                        >
-                          +
-                        </span>
-                      </div>
-                    </td>
-                    <td className="p-2 font-medium text-green-700">
-                      {currencyFormatter(
-                        item.quantityProduct * item.priceProduct
-                      )}
-                    </td>
-                  </tr>
-                ))}
-            </tbody>
-          </table>
-          <div className="flex-[1] py-4">
-            <div className="border-2 px-6 py-4">
-              <p className="uppercase font-bold text-[24px]">Cộng giỏ hàng</p>
-              <div className="flex items-center justify-between py-4 border-b">
-                <p className="font-medium">Tạm tính</p>
-                <p>{currencyFormatter(totalPrice)}</p>
+        {cartItems && cartItems.length > 0 ? (
+          <>
+            <div className="flex px-4 gap-6 mt-10 mb-10">
+              <div className="flex-[2] w-full">
+                <table className="table-auto border-collapse">
+                  <thead>
+                    <tr className="border-b">
+                      <th className=" p-4">Xóa</th>
+                      <th className=" p-4 text-left">Hình ảnh</th>
+                      <th className=" p-4 text-left">Sản phẩm</th>
+                      <th className=" p-4 text-left">Giá</th>
+                      <th className=" p-4">Số lượng</th>
+                      <th className=" p-4">Tạm tính</th>
+                    </tr>
+                  </thead>
+                  <tbody className="">
+                    {cartItems &&
+                      cartItems.map((item) => (
+                        <tr key={item.idProduct} className="border-b">
+                          <td className="p-4 text-center">
+                            <FontAwesomeIcon
+                              icon={faX}
+                              className="text-[12px] cursor-pointer"
+                              onClick={() => {
+                                const string =
+                                  item.idProduct + item.sizeProduct;
+                                dispatch(removeCart(string));
+                                dispatch(resetPrice(item));
+                              }}
+                            />
+                          </td>
+                          <td className="p-4">
+                            <img
+                              src={item.imagesProduct[0]}
+                              alt="Sản phẩm"
+                              className="w-[80px] h-auto"
+                            />
+                          </td>
+                          <td className="p-4">
+                            {item.nameProduct}{" "}
+                            {item.sizeProduct && (
+                              <p className="font-medium">{item.sizeProduct}</p>
+                            )}
+                          </td>
+                          <td className="p-4 text-gray-500">
+                            {currencyFormatter(item.priceProduct)}
+                          </td>
+                          <td className="p-4 w-[100px]">
+                            <div className="flex items-center border rounded w-fit">
+                              <span
+                                className="p-2 cursor-pointer"
+                                onClick={() => handleDown(item.idProduct)}
+                              >
+                                -
+                              </span>
+                              <input
+                                type="number"
+                                value={item.quantityProduct}
+                                className="text-center border-x outline-none w-[40px]"
+                                onChange={(e) =>
+                                  handleOnChange(e, item.idProduct)
+                                }
+                                onBlur={() => handleOnBlur(item.idProduct)}
+                                min="1"
+                              />
+                              <span
+                                className="p-2 cursor-pointer"
+                                onClick={() => handleUp(item.idProduct)}
+                              >
+                                +
+                              </span>
+                            </div>
+                          </td>
+                          <td className="p-4 font-medium text-green-700">
+                            {currencyFormatter(
+                              item.quantityProduct * item.priceProduct
+                            )}
+                          </td>
+                        </tr>
+                      ))}
+                  </tbody>
+                </table>
               </div>
-              <div className="flex items-center justify-between py-4">
-                <p className="font-medium text-[22px]">Tổng</p>
-                <p className="font-medium text-green-700 text-[22px]">
-                  {currencyFormatter(totalPrice)}
-                </p>
+              <div className="flex-[1] py-4">
+                <div className="border-2 px-6 py-4">
+                  <p className="uppercase font-bold text-[24px]">
+                    Cộng giỏ hàng
+                  </p>
+                  <div className="flex items-center justify-between py-4 border-b">
+                    <p className="font-medium">Tạm tính</p>
+                    <p>{currencyFormatter(totalPrice)}</p>
+                  </div>
+                  <div className="flex items-center justify-between py-4">
+                    <p className="font-medium text-[22px]">Tổng</p>
+                    <p className="font-medium text-green-700 text-[22px]">
+                      {currencyFormatter(totalPrice)}
+                    </p>
+                  </div>
+                  <Link to={"/pay"}>
+                    <p className="py-4 bg-red-500 text-white text-center uppercase mt-2 hover:bg-red-400 cursor-pointer ">
+                      Tiến hành thanh toán
+                    </p>
+                  </Link>
+                </div>
               </div>
-              <p className="py-4 bg-red-500 text-white text-center uppercase mt-2 hover:bg-red-400 cursor-pointer ">
-                Tiến hành thanh toán
-              </p>
             </div>
-          </div>
-        </div></> : <> <p className="my-10 text-center">Chưa có sản phẩm trong giỏ hàng</p></>}
-        
+          </>
+        ) : (
+          <>
+            {" "}
+            <p className="my-10 text-center">Chưa có sản phẩm trong giỏ hàng</p>
+          </>
+        )}
       </div>
     </div>
   );

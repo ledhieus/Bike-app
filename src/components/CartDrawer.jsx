@@ -25,7 +25,7 @@ const CartDrawer = ({ onClose, open }) => {
             <p  className="font-bold text-green-700 text-[22px]">{currencyFormatter(totalPrice)}</p>
           </div>
           <div className="flex flex-col gap-4">
-          <Link to={"/cart"}><button className="bg-gray-100 font-medium text-black uppercase py-3 hover:bg-gray-200">Xem Giỏ hàng</button></Link>
+          <Link to={"/cart"} className="bg-gray-100 font-medium text-black uppercase py-3 hover:bg-gray-200 text-center"><p>Xem Giỏ hàng</p></Link>
           <button className="bg-red-700 font-medium text-white uppercase py-3">Thanh toán</button>
           </div>
         </div>

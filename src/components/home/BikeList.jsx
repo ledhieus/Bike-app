@@ -10,16 +10,17 @@ import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons";
 import { getProduct } from "../../service/product";
 
 const BikeList = ({ bikeId }) => {
-  const query = bikeId.map((id) => `category=${id}`).join("&");
   const [bikeProduct, setBikeProduct] = useState([]);
   const swiperRef = useRef(null);
   useEffect(() => {
     const fetchApi = async () => {
-      const data = await getProduct(`?${query}`);
-      setBikeProduct(data);
+      const data = await getProduct(`?categoryId=${bikeId}`);
+      if(data.code===200){
+        setBikeProduct(data.data)
+      }
     };
     fetchApi();
-  }, [query]);
+  }, [bikeId]);
 
   useEffect(() => {
     if (swiperRef.current) {
@@ -43,7 +44,7 @@ const BikeList = ({ bikeId }) => {
           grabCursor={true}
         >
           {bikeProduct.map((item) => (
-            <SwiperSlide key={item.id}>
+            <SwiperSlide key={item._id}>
               <CardItem product={item}/>
             </SwiperSlide>
           ))}

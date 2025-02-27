@@ -7,6 +7,7 @@ import {
   faChevronDown,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
+import { createTree } from "../../../helper/createTree";
 
 const CategoryProduct = () => {
   const [categoryList, setCategoryList] = useState([]);
@@ -16,7 +17,10 @@ const CategoryProduct = () => {
   useEffect(() => {
     const fetchApi = async () => {
       const data = await getCategory("");
-      setCategoryList(data);
+      if(data.code === 200){
+        const category = createTree(data.data)
+        setCategoryList(category);
+      }
     };
     fetchApi();
   }, []);
@@ -38,7 +42,7 @@ const CategoryProduct = () => {
           </p>
           {categoryList.map((item) => (
             <div
-              key={item.id}
+              key={item._id}
               className="uppercase px-4 py-2 border-b-[1px] hover:bg-[#e4e5e6]"
               onMouseEnter={() => {
                 setHoveredCategory(item);
@@ -59,13 +63,13 @@ const CategoryProduct = () => {
             hoveredCategory.children.length > 0 &&
             isHovering && (
               <div
-                className="w-[800px]  h-[300px] bg-[#f8f9fa] absolute top-0 left-[267px] shadow-lg border p-6"
+                className="w-[600px]  h-[250px] bg-[#f8f9fa] absolute top-0 left-[267px] shadow-lg border p-6"
                 onMouseEnter={() => setIsHovering(true)}
                 onMouseLeave={() => setIsHovering(false)}
               >
                 <div className="h-fit grid grid-cols-3 gap-4">
                   {hoveredCategory.children.map((item) => (
-                    <div key={item.id}>
+                    <div key={item._id}>
                       {item.children.length > 0 ? (
                         <>
                           <p className="font-medium text-slate-800 text-[18px] mb-1 hover:text-[#89c91e]">

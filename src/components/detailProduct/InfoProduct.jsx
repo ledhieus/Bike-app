@@ -7,9 +7,10 @@ import { updatePrice } from "../../redux/slices/totalPrice";
 
 /* eslint-disable react/prop-types */
 const InfoProduct = ({ detailProduct, detailBrand }) => {
-  const sub = detailProduct?.sub;
+  // const sub = detailProduct?.sub;
   const [quantity, setQuantity] = useState(1);
   const [activeSize, setActiveSize] = useState(null);
+  const [stock, setStock] = useState(null);
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
 
@@ -50,7 +51,7 @@ const InfoProduct = ({ detailProduct, detailBrand }) => {
   const handleAddToCart = () => {
     const infoProduct = {
       nameProduct: detailProduct.name,
-      priceProduct: detailProduct.price * (1 - (detailProduct.discount)/100),
+      priceProduct: detailProduct.price * (1 - detailProduct.discount / 100),
       idProduct: detailProduct.id,
       quantityProduct: quantity,
       imagesProduct: detailProduct.image,
@@ -63,9 +64,9 @@ const InfoProduct = ({ detailProduct, detailBrand }) => {
       return;
     }
     dispatch(addToCart(infoProduct));
-    dispatch(updatePrice(infoProduct))
+    dispatch(updatePrice(infoProduct));
     showDrawer();
-    setActiveSize(null)
+    setActiveSize(null);
   };
 
   return (
@@ -100,7 +101,7 @@ const InfoProduct = ({ detailProduct, detailBrand }) => {
         </>
       )}
 
-      <ul className="list-disc pl-5 space-y-4">
+      {/* <ul className="list-disc pl-5 space-y-4">
         {sub?.map((item, index) => (
           <li key={index}>
             {item.title && item.value ? (
@@ -112,31 +113,39 @@ const InfoProduct = ({ detailProduct, detailBrand }) => {
             )}
           </li>
         ))}
-      </ul>
+      </ul> */}
       <div className="flex items-center gap-4">
         <p className="font-medium">Thương hiệu</p>
         <p className="px-2 py-1 border border-[#29a745] uppercase rounded-md  cursor-pointer">
           {detailBrand?.name}
         </p>
       </div>
-      {detailProduct?.size && (
+      {detailProduct?.sizes?.length>0 && (
         <div>
           <p className="mb-2 font-bold">
             Kích thước: <span className="text-blue-400">{activeSize}</span>
           </p>
           <div className="flex items-center gap-2">
-            {detailProduct?.size.map((item, index) => (
+            {detailProduct?.sizes.map((item) => (
               <p
-                key={index}
+                key={item._id}
                 className={`px-2 py-1 border font-medium w-fit rounded-lg cursor-pointer ${
-                  activeSize === item ? "border-black" : ""
+                  activeSize === item.size ? "border-black" : ""
                 }`}
-                onClick={() => setActiveSize(item)}
+                onClick={() => {
+                  setActiveSize(item.size);
+                  if (item.quantity < 6) {
+                    setStock(item.quantity);
+                  } else {
+                    setStock(null)
+                  }
+                }}
               >
-                {item}
+                {item.size}
               </p>
             ))}
           </div>
+          {stock && <p className="text-[14px] mt-2 font-medium">Chỉ còn: {stock} sản phẩm</p>}
         </div>
       )}
       <div className="flex items-center gap-4 ">

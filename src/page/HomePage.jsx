@@ -6,28 +6,36 @@ import ListProduct from "../components/home/ListProduct";
 import New from "../components/home/New";
 import { getProduct } from "../service/product";
 import { getCategory } from "../service/category";
-import { getAllCategoryIds } from "../helper/getAllCategory";
 
 const HomePage = () => {
   const [newProduct, setNewProduct] = useState([])
   const [saleProduct, setSaleProduct] = useState([])
-  const [wellProduct, setWellProduct] = useState([])
   const [bikeId, setBikeId] = useState([])
   useEffect(() => {
       const fetchApi = async () => {
-        const data = await getProduct("");
-        setNewProduct(data.filter(item => item.status === "new").splice(0,10))
-        setSaleProduct(data.filter((item) => item.discount).splice(0,10))
-        setWellProduct(data.filter((item) => item.isBestSeller).splice(0,5))
+        const data = await getProduct("?featured=new");
+        if(data.code === 200){
+          setNewProduct(data.data)
+        }
+      };
+      fetchApi();
+    }, []);
+    useEffect(() => {
+      const fetchApi = async () => {
+        const data = await getProduct("?discount=10");
+        if(data.code === 200){
+          setSaleProduct(data.data)
+        }
       };
       fetchApi();
     }, []);
 
   useEffect(()=> {
     const fetchApi = async () => {
-      const data = await getCategory("?slug=xe-dap");
-      const allCategories  = getAllCategoryIds(data?.[0])
-      setBikeId(allCategories)
+      const data = await getCategory("?slug=khung-suon-xe-dap");
+      if(data.code === 200){
+        setBikeId(data.data[0]?._id)
+      }
     };
     fetchApi();
   }, [])
@@ -38,7 +46,6 @@ const HomePage = () => {
         <ListBrand />
         <ListProduct title="Sản phẩm mới" productList={newProduct}/>
         <ListProduct title="Sản phẩm giảm giá" productList={saleProduct}/>
-        <ListProduct title="Sản phẩm bán chạy" productList={wellProduct}/>
         <BikeList bikeId={bikeId}/>
         <New/>
       </div>

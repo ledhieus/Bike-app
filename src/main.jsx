@@ -12,6 +12,7 @@ import SearchPage from "./page/SearchPage";
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
 import CartPage from "./page/CartPage";
+import PayPage from "./page/PayPage";
 
 const router = createBrowserRouter([
   {
@@ -49,6 +50,10 @@ const router = createBrowserRouter([
         path: "/cart",
         element: <CartPage />,
       },
+      {
+        path: "/pay",
+        element: <PayPage />,
+      }
     ],
   },
 ]);

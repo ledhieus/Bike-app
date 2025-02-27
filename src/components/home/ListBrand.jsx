@@ -13,8 +13,10 @@ const ListBrand = () => {
   const [brandAgency, setBrandAgency] = useState([]);
   useEffect(() => {
     const fetchApi = async () => {
-      const data = await getBrands("");
-      setBrandAgency(data.filter((item) => item.status === "agency"));
+      const data = await getBrands("?type=agency");
+      if(data.code === 200){
+        setBrandAgency(data.data);
+      }
     };
     fetchApi();
   }, []);
@@ -43,7 +45,7 @@ const ListBrand = () => {
             grabCursor={true}
           >
             {brandAgency.map((item) => (
-              <SwiperSlide key={item.id}>
+              <SwiperSlide key={item._id}>
                 <Link to={`/brands/${item.slug}`}>
                   <img
                     src={item.image}
