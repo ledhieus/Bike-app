@@ -32,9 +32,12 @@ export const shoppingCartSlice = createSlice({
       if (existingCartIndex !== -1) {
         state.cartItemList[existingCartIndex].quantityProduct = quantityProduct;
       }
+    },
+    resetCart:(state)=> {
+      state.cartItemList = []
     }
   }
 })
 
-export const {addToCart, removeCart, updateCart} = shoppingCartSlice.actions;
+export const {addToCart, removeCart, updateCart, resetCart} = shoppingCartSlice.actions;
 export default shoppingCartSlice.reducer;

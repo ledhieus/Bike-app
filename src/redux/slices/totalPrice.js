@@ -27,8 +27,11 @@ export const totalPriceSlice = createSlice({
       const totalPrice = state.totalPrice -  priceProduct;
       state.totalPrice = totalPrice;
     },
+    initPrice: (state)=> {
+      state.totalPrice = 0
+    }
   },
 });
 
-export const { updatePrice, resetPrice, upPrice, downPrice } = totalPriceSlice.actions;
+export const { updatePrice, resetPrice, upPrice, downPrice, initPrice } = totalPriceSlice.actions;
 export default totalPriceSlice.reducer;

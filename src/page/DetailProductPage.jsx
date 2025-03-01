@@ -30,7 +30,7 @@ const DetailProductPage = () => {
   // }, [categoryId, slugProduct]);
 
   return (
-    <div>
+    <div className="bg-white">
       <DetailProduct detailProduct={detailProduct} />
       <hr />
       {/* <ListProduct title="Sản phảm tương tự" productList={productSuccess} /> */}

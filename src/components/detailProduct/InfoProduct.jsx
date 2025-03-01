@@ -52,12 +52,12 @@ const InfoProduct = ({ detailProduct, detailBrand }) => {
     const infoProduct = {
       nameProduct: detailProduct.name,
       priceProduct: detailProduct.price * (1 - detailProduct.discount / 100),
-      idProduct: detailProduct.id,
+      idProduct: detailProduct._id,
       quantityProduct: quantity,
       imagesProduct: detailProduct.image,
       sizeProduct: activeSize || "",
     };
-    if (detailProduct.size && !infoProduct.sizeProduct) {
+    if (detailProduct.sizes.length>0 && !infoProduct.sizeProduct) {
       alert(
         "Chọn các tùy chọn cho sản phẩm trước khi cho sản phẩm vào giỏ hàng của bạn."
       );

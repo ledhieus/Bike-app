@@ -13,6 +13,11 @@ import { Provider } from "react-redux";
 import { store } from "./redux/store";
 import CartPage from "./page/CartPage";
 import PayPage from "./page/PayPage";
+import Register from "./page/Auth/Register";
+import OTPInputPage from "./page/Auth/OTPInputPage";
+import LoginPage from "./page/Auth/LoginPage";
+import Logout from "./page/Auth/Logout";
+import DonePage from "./page/DonePage";
 
 const router = createBrowserRouter([
   {
@@ -53,6 +58,26 @@ const router = createBrowserRouter([
       {
         path: "/pay",
         element: <PayPage />,
+      },
+      {
+        path: "/done",
+        element: <DonePage />,
+      },
+      {
+        path: "/register",
+        element: <Register />,
+      },
+      {
+        path: "/login",
+        element: <LoginPage />,
+      },
+      {
+        path: "/logout",
+        element: <Logout />,
+      },
+      {
+        path: "/otp",
+        element: <OTPInputPage />,
       }
     ],
   },

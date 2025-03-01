@@ -29,7 +29,7 @@ const CategoryPage = () => {
     fetchApi();
   }, [slugNameCategory]);
   return (
-   <div>
+   <div className="bg-white">
     <LayoutProductList category={category} productList={productList}/>
    </div>
   );
