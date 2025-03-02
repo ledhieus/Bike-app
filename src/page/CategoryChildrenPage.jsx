@@ -3,13 +3,16 @@ import LayoutProductList from "../components/LayoutProductList";
 import { getProduct } from "../service/product";
 import { useEffect, useState } from "react";
 import { getCategory } from "../service/category";
+import Loading from "../components/Loading";
 
 const CategoryChildrenPage = () => {
   const { slugNameCategory, slugCategoryChildren } = useParams();
   const [productList, setProductList] = useState([]);
   const [category, setCategory] = useState(null);
   const [categoryParent, setcategoryParent] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
+    setIsLoading(true)
     const fetchApi = async () => {
       const data = await getProduct(
         `/product-buy-category/${slugCategoryChildren}`
@@ -17,6 +20,7 @@ const CategoryChildrenPage = () => {
       if (data.code === 200) {
         setProductList(data.data);
       }
+      setIsLoading(false)
     };
     fetchApi();
   }, [slugCategoryChildren]);
@@ -38,7 +42,13 @@ const CategoryChildrenPage = () => {
     };
     fetchApi();
   }, [slugNameCategory]);
-  return <LayoutProductList productList={productList} category={category} categoryParent={categoryParent}/>;
+  return (
+    <>
+      {isLoading ? <Loading/> : (
+        <LayoutProductList productList={productList} category={category} categoryParent={categoryParent}/>
+      )}
+    </>
+  );
 };
 
 export default CategoryChildrenPage;

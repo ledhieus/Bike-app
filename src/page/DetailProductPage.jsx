@@ -1,39 +1,55 @@
-import { useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import DetailProduct from "../components/detailProduct/DetailProduct";
 import { useEffect, useState } from "react";
 import { getProduct } from "../service/product";
-// import ListProduct from "../components/home/ListProduct";
+import Loading from "../components/Loading";
 
 const DetailProductPage = () => {
   const { slugProduct } = useParams();
   const [detailProduct, setDetailProduct] = useState([]);
-  // const [categoryId, setCategoryId] = useState(null);
-  // const [productSuccess, setProductSuccess] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchApi = async () => {
-      const data = await getProduct(`/detail/${slugProduct}`);
-      if(data.code===200){
-        setDetailProduct(data.data)
+      setIsLoading(true);
+      try {
+        const data = await getProduct(`/detail/${slugProduct}`);
+        if (data.code === 200) {
+          setDetailProduct(data.data);
+        } else {
+          navigate("/404", { replace: true });
+          return;
+        }
+        setIsLoading(false);
+      } catch (error) {
+        console.error("Lỗi khi lấy dữ liệu:", error);
+        navigate("/404", { replace: true });
       }
     };
     fetchApi();
-  }, [slugProduct]);
-  // useEffect(() => {
-  //   if (!categoryId) return;
-  //   const fetchApi = async () => {
-  //     const data = await getProduct(`?category=${categoryId}`);
-  //     const existData = data.filter(item => item.slug !== slugProduct)
-  //     setProductSuccess(existData);
-  //   };
-  //   fetchApi();
-  // }, [categoryId, slugProduct]);
+  }, [slugProduct, navigate]);
 
   return (
     <div className="bg-white">
-      <DetailProduct detailProduct={detailProduct} />
+      {isLoading ? (
+        <Loading />
+      ) : detailProduct ? (
+        <DetailProduct detailProduct={detailProduct} />
+      ) : (
+        <>
+          <div className="padding-layout py-[100px] text-center">
+            <p className="py-10">Không thấy sản phẩm</p>
+            <Link
+              to={"/"}
+              className="mt-10 px-4 py-2 bg-blue-500 text-white rounded-lg"
+            >
+              Quay về trang chủ
+            </Link>
+          </div>
+        </>
+      )}
       <hr />
-      {/* <ListProduct title="Sản phảm tương tự" productList={productSuccess} /> */}
     </div>
   );
 };

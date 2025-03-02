@@ -4,17 +4,23 @@ import { useForm } from "react-hook-form";
 import InputText from "../../components/FormInput/InputText";
 import { error, success } from "../../libs/message";
 import { postLogin } from "../../service/user";
-import { setCookie } from "../../helper/cookie";
+import { getCookie, setCookie } from "../../helper/cookie";
+import { useEffect } from "react";
 
 const LoginPage = () => {
+  const tokenUser = getCookie("tokenUser");
   const navigate = useNavigate();
+  useEffect(() => {
+    if (tokenUser) {
+      navigate("/", { replace: true });
+    }
+  }, [tokenUser, navigate]);
   const onSubmit = async (formData) => {
     const response = await postLogin(formData);
     if (response.code === 200) {
       const tokenUser = response.token;
       setCookie("tokenUser", tokenUser, 7);
       success(response.message);
-      // dispatch(setToken(tokenUser))
       navigate("/");
     } else {
       error(response.message);

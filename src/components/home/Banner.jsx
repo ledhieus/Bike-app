@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useMemo, useState } from "react";
+import ImageComponent from "../ImageComponent";
 
 const Banner = () => {
   const [activeImgId, setActiveImgId] = useState("1");
@@ -45,7 +46,8 @@ const Banner = () => {
           {bannerList.map((item) =>
             item.id === activeImgId ? (
               <>
-                <img src={item.img} />
+                <ImageComponent width={1903} height={635} className={"w-full h-full object-cover"} src={item.img}/>
+                {/* <img src={item.img} key={item.id} className="w-full h-full object-cover" onLoad={(e) => e.currentTarget.classList.remove("animate-pulse")}/> */}
               </>
             ) : (
               <></>

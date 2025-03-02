@@ -8,6 +8,7 @@ import { addToCart } from "../redux/slices/shoppingCart";
 import { useState } from "react";
 import CartDrawer from "./CartDrawer";
 import { updatePrice } from "../redux/slices/totalPrice";
+import ImageComponent from "./ImageComponent";
 
 const CardItem = ({ product }) => {
   const [open, setOpen] = useState(false);
@@ -39,10 +40,11 @@ const CardItem = ({ product }) => {
       <Link to={`/product/${product?.slug}`}>
         <div className="bg-white shadow-lg">
           <div className="relative w-full h-[250px]">
-            <img
+            <ImageComponent width={260} height={250} className={"w-full h-full object-cover"} src={product?.image[0]}/>
+            {/* <img
               src={product?.image[0]}
               className="w-full h-full transition-opacity duration-500 ease-in-out group-hover/card:opacity-0 object-cover"
-            />
+            /> */}
             <img
               src={product?.image[1]}
               className="absolute top-0 w-full h-full left-0 opacity-0 transition-opacity duration-500 ease-in-out group-hover/card:opacity-100 object-cover"

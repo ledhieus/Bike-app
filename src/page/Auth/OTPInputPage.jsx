@@ -4,11 +4,18 @@ import MiniBanner from "../../components/MiniBanner";
 import { postVerifyOtp } from "../../service/user";
 import { error, success } from "../../libs/message";
 import { useNavigate } from "react-router-dom";
-import { setCookie } from "../../helper/cookie";
+import { getCookie, setCookie } from "../../helper/cookie";
+import { useEffect } from "react";
 
 const OTPInputPage = () => {
+  const tokenUser = getCookie("tokenUser");
   const userInfo = useSelector(state => state.userInfo.userInfo)
   const navigate = useNavigate()
+  useEffect(() => {
+    if (!tokenUser) {
+      navigate("/", { replace: true });
+    }
+  }, [tokenUser, navigate]);
   const handleOTPComplete = async (otp) => {
     const codeVerify = {
       ...userInfo,

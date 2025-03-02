@@ -19,6 +19,7 @@ import LoginPage from "./page/Auth/LoginPage";
 import Logout from "./page/Auth/Logout";
 import DonePage from "./page/DonePage";
 import AccountPage from "./page/AccountPage";
+import NotFound from "./components/NotFound";
 
 const router = createBrowserRouter([
   {
@@ -83,6 +84,14 @@ const router = createBrowserRouter([
       {
         path: "/otp",
         element: <OTPInputPage />,
+      },
+      {
+        path: "*",
+        element: <NotFound />,
+      },
+      {
+        path: "/404",
+        element: <NotFound />,
       }
     ],
   },

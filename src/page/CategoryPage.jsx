@@ -3,12 +3,15 @@ import { useParams } from "react-router-dom";
 import { getCategory } from "../service/category";
 import { getProduct } from "../service/product";
 import LayoutProductList from "../components/LayoutProductList";
+import Loading from "../components/Loading";
 
 const CategoryPage = () => {
   const { slugNameCategory } = useParams();
   const [category, setCategory] = useState(null);
   const [productList, setProductList] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
+    setIsLoading(true);
     const fetchApi = async () => {
       const data = await getProduct(
         `/product-buy-category/${slugNameCategory}`
@@ -16,6 +19,7 @@ const CategoryPage = () => {
       if (data.code === 200) {
         setProductList(data.data);
       }
+      setIsLoading(false);
     };
     fetchApi();
   }, [slugNameCategory]);
@@ -29,9 +33,13 @@ const CategoryPage = () => {
     fetchApi();
   }, [slugNameCategory]);
   return (
-   <div className="bg-white">
-    <LayoutProductList category={category} productList={productList}/>
-   </div>
+    <div className="bg-white">
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <LayoutProductList category={category} productList={productList} />
+      )}
+    </div>
   );
 };
 

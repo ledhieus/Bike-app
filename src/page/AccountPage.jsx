@@ -5,18 +5,22 @@ import { getCookie } from "../helper/cookie";
 import { getOrder } from "../service/order";
 import { currencyFormatter } from "../helper/formatNumber";
 import { Tag } from "antd";
+import Loading from "../components/Loading";
 
 const AccountPage = () => {
   const [infoUser, setInfoUser] = useState(null);
   const [order, setOrder] = useState([]);
   const tokenUser = getCookie("tokenUser");
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     if (tokenUser === null) return;
+    setIsLoading(true);
     const fetchApi = async () => {
       const data = await getDetailUser("");
       if (data.code === 200) {
         setInfoUser(data.info);
       }
+      setIsLoading(false);
     };
     fetchApi();
   }, [tokenUser]);
@@ -34,10 +38,13 @@ const AccountPage = () => {
     <div>
       <MiniBanner title={"Tài Khoản"} />
       <div className="padding-layout my-20 px-10">
-        {infoUser && (
-          <div className="flex flex-col gap-6 py-10 px-10 bg-white">
+        {isLoading ? (
+          <Loading />
+        ) : infoUser ? (
+          <div className="flex flex-col gap-6 p-10 bg-white shadow-md rounded-lg">
+            {/* Thông tin tài khoản */}
             <div className="px-8 space-y-4 border-r-2">
-              <p className="text-3xl font-bold mb-4">Thông Tin Tài Khoản</p>
+              <h2 className="text-3xl font-bold mb-4">Thông Tin Tài Khoản</h2>
               <div className="flex gap-2">
                 <p className="font-bold">Họ và tên:</p>
                 <p>{infoUser.fullName}</p>
@@ -51,11 +58,13 @@ const AccountPage = () => {
                 <p>{infoUser.phone}</p>
               </div>
             </div>
+
+            {/* Đơn hàng */}
             <div className="p-6">
-              <h1 className="text-3xl font-bold mb-4">Đơn hàng</h1>
+              <h2 className="text-3xl font-bold mb-4">Đơn hàng</h2>
 
               <div className="space-y-6">
-                {order.length > 0 ? (
+                {order && order.length > 0 ? (
                   order.map((item) => (
                     <div
                       key={item._id}
@@ -73,8 +82,12 @@ const AccountPage = () => {
                             <tr className="bg-gray-100 text-left">
                               <th className="px-4 py-2 border">STT</th>
                               <th className="px-4 py-2 border">Tên sản phẩm</th>
-                              <th className="px-4 py-2 border text-center">Số lượng</th>
-                              <th className="px-4 py-2 border  text-center">Giá</th>
+                              <th className="px-4 py-2 border text-center">
+                                Số lượng
+                              </th>
+                              <th className="px-4 py-2 border text-right">
+                                Giá
+                              </th>
                             </tr>
                           </thead>
                           <tbody>
@@ -125,6 +138,10 @@ const AccountPage = () => {
               </div>
             </div>
           </div>
+        ) : (
+          <p className="text-gray-500 text-center">
+            Không có thông tin tài khoản!
+          </p>
         )}
       </div>
     </div>

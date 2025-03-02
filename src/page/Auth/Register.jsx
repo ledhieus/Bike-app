@@ -6,10 +6,18 @@ import { useDispatch } from "react-redux";
 import { postRegister } from "../../service/user";
 import { setUser } from "../../redux/slices/userInfo";
 import { error, success } from "../../libs/message";
+import { getCookie } from "../../helper/cookie";
+import { useEffect } from "react";
 
 const Register = () => {
+  const tokenUser = getCookie("tokenUser");
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  useEffect(() => {
+      if (tokenUser) {
+        navigate("/", { replace: true });
+      }
+    }, [tokenUser, navigate]);
 
   const onSubmit = async (formData) => {
     dispatch(setUser(formData));

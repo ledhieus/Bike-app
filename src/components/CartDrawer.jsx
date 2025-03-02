@@ -26,7 +26,7 @@ const CartDrawer = ({ onClose, open }) => {
           </div>
           <div className="flex flex-col gap-4">
           <Link to={"/cart"} className="bg-gray-100 font-medium text-black uppercase py-3 hover:bg-gray-200 text-center"><p>Xem Giỏ hàng</p></Link>
-          <button className="bg-red-700 font-medium text-white uppercase py-3">Thanh toán</button>
+          <Link to={"/pay"}><p className="bg-red-700 font-medium text-white uppercase py-3 text-center">Thanh toán</p></Link>
           </div>
         </div>
       }
