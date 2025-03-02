@@ -37,9 +37,6 @@ const CategoryProduct = () => {
           onMouseEnter={() => setIsHovering(true)}
           onMouseLeave={() => setIsHovering(false)}
         >
-          <p className="uppercase px-4 py-2 border-b-[1px] hover:bg-[#e4e5e6] font-medium">
-            Tất cả sản phẩm
-          </p>
           {categoryList.map((item) => (
             <div
               key={item._id}

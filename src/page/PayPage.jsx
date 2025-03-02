@@ -7,7 +7,7 @@ import { faX } from "@fortawesome/free-solid-svg-icons";
 import { currencyFormatter } from "../helper/formatNumber";
 import { Link, useNavigate } from "react-router-dom";
 import { postCreatOrder } from "../service/order";
-import { success } from "../libs/message";
+import { error, success } from "../libs/message";
 import { getCookie } from "../helper/cookie";
 import { resetCart } from "../redux/slices/shoppingCart";
 import { initPrice } from "../redux/slices/totalPrice";
@@ -45,12 +45,12 @@ const PayPage = () => {
       })
     );
     const postForm = {
-      tokenUser: tokenUser,
-      customer: { ...formData },
+      customer: { ...formData, tokenUser: tokenUser },
       items: filteredItems,
       totalPrice: totalPrice,
       status: "pending",
     };
+    console.log(postForm);
     const response = await postCreatOrder(postForm)
     if(response.code === 200){
       dispatch(resetCart())
@@ -58,7 +58,7 @@ const PayPage = () => {
       success(response.message)
       navigate("/done")
     }else{
-      errors(response.message)
+      error(response.message)
     }
   };
   return (

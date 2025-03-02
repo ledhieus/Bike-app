@@ -56,7 +56,6 @@ const SearchForm = () => {
       setIsShowingSuccess(true);
       setValueSearch(value);
     }
-    console.log(slug);
   };
   const handleClick = () => {
     navigate(`/search/${valueSearch}`);
@@ -124,7 +123,7 @@ const SearchForm = () => {
             {tokenUser && isOpenOverlay && (
               <div className="absolute top-[10px] right-[-10px] w-fit shadow-xl p-6 rounded-md">
                 <div className="flex flex-col items-center justify-center bg-white text-[16px]">
-                <Link>
+                <Link to={"/account"}>
                   <p className="px-4 py-2 w-fit whitespace-nowrap hover:bg-[#f8f9fa]">Tài khoản</p>
                 </Link>
                 <Link to={"/logout"}>

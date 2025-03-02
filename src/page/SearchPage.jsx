@@ -1,24 +1,25 @@
-import { Link, useParams } from "react-router-dom"
-import MiniBanner from "../components/MiniBanner"
+import { Link, useParams } from "react-router-dom";
+import MiniBanner from "../components/MiniBanner";
 import { removeVietnameseTones } from "../helper/replace";
 import { getProduct } from "../service/product";
 import { useEffect, useState } from "react";
 import CardItem from "../components/CardItem";
 
 const SearchPage = () => {
-  const {slugSearch} = useParams()
+  const { slugSearch } = useParams();
+  console.log(slugSearch);
   const [productList, setProductList] = useState([]);
   const slug = removeVietnameseTones(slugSearch).split(" ").join("-");
   useEffect(() => {
-      const fetchApi = async () => {
-        const data = await getProduct("");
-        const resultProduct = data.filter((item) =>
-          item.slug.includes(slug)
-        );
-        setProductList(resultProduct);
-      };
-      fetchApi();
-    }, [slug]);
+    const fetchApi = async () => {
+      const data = await getProduct(`/search/${slug}`);
+      if (data.code === 200) {
+        setProductList(data.data);
+      }
+      // setProductList(data);
+    };
+    fetchApi();
+  }, [slug]);
   return (
     <div>
       <MiniBanner title={`Kết quả tìm kiểm: ${slugSearch}`} />
@@ -34,7 +35,7 @@ const SearchPage = () => {
             <>
               <div className="grid grid-cols-5 py-10 gap-6">
                 {productList.map((item) => (
-                  <CardItem key={item.id} product={item} />
+                  <CardItem key={item._id} product={item} />
                 ))}
               </div>
             </>
@@ -44,7 +45,7 @@ const SearchPage = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default SearchPage
+export default SearchPage;

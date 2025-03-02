@@ -18,6 +18,7 @@ import OTPInputPage from "./page/Auth/OTPInputPage";
 import LoginPage from "./page/Auth/LoginPage";
 import Logout from "./page/Auth/Logout";
 import DonePage from "./page/DonePage";
+import AccountPage from "./page/AccountPage";
 
 const router = createBrowserRouter([
   {
@@ -50,6 +51,10 @@ const router = createBrowserRouter([
       {
         path: "/search/:slugSearch",
         element: <SearchPage />,
+      },
+      {
+        path: "/account",
+        element: <AccountPage />,
       },
       {
         path: "/cart",
