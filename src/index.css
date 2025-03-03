@@ -4,7 +4,7 @@
 
 @layer components {
   .padding-layout {
-    @apply w-[1400px] m-auto;
+    @apply max-w-screen-sm md:max-w-none 2xl:w-[1600px] xl:w-[1200px] lg:w-[1000px]  px-4 m-auto ;
   }
   .bg-bold{
     @apply bg-[#142b30]

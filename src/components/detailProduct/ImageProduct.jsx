@@ -10,7 +10,7 @@ const ImageProduct = ({imageDetail}) => {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   const [activeIndex, setActiveIndex] = useState(0);
   return (
-    <div className="flex flex-col px-6">
+    <div className="flex flex-col lg:px-4 px-2">
       <div className="flex">
         <Swiper
           modules={[Navigation, Controller]}
@@ -22,7 +22,7 @@ const ImageProduct = ({imageDetail}) => {
         >
           {imageDetail?.map((item, index) => (
             <SwiperSlide key={index}>
-              <div className="w-fit">
+              <div className="w-full h-full flex items-center justify-center">
                 <ReactImageMagnifier
                   srcPreview={item}
                   srcOriginal={item}

@@ -5,8 +5,8 @@ const Footer = () => {
   return (
     <div className="w-full h-fit bg-[url('https://bikelife.com.vn/wp-content/uploads/2021/09/bikes-footer-bg.jpg')]">
       <div className="text-white padding-layout ">
-        <div className="flex py-14 gap-4">
-          <div className="flex-[2] flex gap-4">
+        <div className="flex md:flex-row flex-col  py-14 gap-4">
+          <div className="flex lg :flex-[2] lg:flex-row flex-col gap-4">
             <div className="space-y-4 flex-[1.5]">
               <p className="text-[26px] text-[#89C91E] font-bold">Giới thiệu</p>
               <div className="space-y-4">
@@ -81,7 +81,7 @@ const Footer = () => {
             </p>
             <form className="flex items-center gap-4 ">
               <input type="text" className="px-2 py-2 text-black border flex-1" placeholder="Your email address"/>
-              <div className="bg-[#e83a3a] text-white text-[12px] font-bold uppercase px-6 py-3">Sign up</div>
+              <div className="bg-[#e83a3a] text-white text-[12px] font-bold uppercase lg:px-6 px-4 py-3 whitespace-nowrap">Sign up</div>
             </form>
             <div className="flex gap-4">
               <div className="bg-[#007BFF] px-4 py-2">Messenger</div>

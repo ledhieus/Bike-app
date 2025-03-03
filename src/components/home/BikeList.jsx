@@ -42,6 +42,12 @@ const BikeList = ({ bikeId }) => {
           loop={true}
           autoplay={{ delay: 4000, disableOnInteraction: false }}
           grabCursor={true}
+          breakpoints={{
+            320: { slidesPerView: 2, spaceBetween: 10 }, // Dưới 320px: Hiển thị 1 slide
+            480: { slidesPerView: 2, spaceBetween: 15 }, // Dưới 480px: Hiển thị 2 slide
+            768: { slidesPerView: 3, spaceBetween: 20 }, // Dưới 768px: Hiển thị 3 slide
+            1024: { slidesPerView: 4, spaceBetween: 20 }, // Dưới 1024px: Hiển thị 4 slide
+          }}
         >
           {bikeProduct.map((item) => (
             <SwiperSlide key={item._id}>

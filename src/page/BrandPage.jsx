@@ -35,17 +35,17 @@ const BrandPage = () => {
         ) : (
           <div className="padding-layout p-20 w-fit m-auto space-y-10">
             <div>
-              <div className="flex items-center mb-8">
-                <div className="border flex-1 h-[1px] bg-black"></div>
-                <p className="text-center font-bold text-[40px] mx-4">
+              <div className="flex items-center mb-8 justify-center">
+                <div className="border flex-1 h-[1px] bg-black hidden md:block"></div>
+                <p className="text-center font-bold md:text-[40px] text-[25px] md:mx-4 mx-0">
                   Thương hiệu đại lý
                 </p>
-                <div className="border flex-1 h-[1px] bg-black"></div>
+                <div className="border flex-1 h-[1px] bg-black hidden md:block"></div>
               </div>
 
-              <div className="grid grid-cols-3 gap-10 px-4">
+              <div className="grid md:grid-cols-3 grid-cols-1 md:gap-10 px-4">
                 {brandAgency.map((item) => (
-                  <Link key={item.id} to={`/brands/${item.slug}`}>
+                  <Link key={item.id} to={`/brands/${item.slug}`} className="mt-5 flex justify-center">
                     <img src={item.image} />
                   </Link>
                 ))}
@@ -53,16 +53,16 @@ const BrandPage = () => {
             </div>
             <div>
               <div className="flex items-center mb-8">
-                <div className="border flex-1 h-[1px] bg-black"></div>
-                <p className="text-center font-bold text-[40px] mx-4">
+                <div className="border flex-1 h-[1px] bg-black hidden md:block"></div>
+                <p className="text-center font-bold md:text-[40px] text-[25px] md:mx-4 mx-0">
                   Thương hiệu khác
                 </p>
-                <div className="border flex-1 h-[1px] bg-black"></div>
+                <div className="border flex-1 h-[1px] bg-black hidden md:block"></div>
               </div>
 
-              <div className="grid grid-cols-4 gap-10 px-4">
+              <div className="grid md:grid-cols-4 grid-cols-1 gap-10 px-4">
                 {brandDifferent.map((item) => (
-                  <Link key={item.id} to={`/brands/${item.slug}`}>
+                  <Link key={item.id} to={`/brands/${item.slug}`}  className="mt-5 flex justify-center">
                     <img src={item.image} />
                   </Link>
                 ))}

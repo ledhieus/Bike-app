@@ -24,7 +24,7 @@ const New = () => {
   return (
     <div className="padding-layout mt-16 pb-20">
       <p className="text-[40px] font-bold mb-8 text-center">Tin tức nổi bật</p>
-      <div className="grid grid-cols-4 gap-4 ">
+      <div className="grid md:grid-cols-4 gap-4 grid-cols-2">
         {news.map((item) => (
           <div key={item.id} className="flex flex-col items-center">
             <img src={item.img} className="w-[80px]" />

@@ -19,7 +19,7 @@ const DetailProduct = ({ detailProduct }) => {
 
   return (
     <div className="padding-layout py-5">
-      <div className="grid grid-cols-2 gap-8">
+      <div className="grid lg:grid-cols-2 grid-cols-1 lg:gap-8 md:gap-4 gap-0">
         <ImageProduct imageDetail={detailProduct?.image} />
         <InfoProduct
           detailProduct={detailProduct}

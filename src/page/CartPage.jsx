@@ -6,6 +6,7 @@ import { currencyFormatter } from "../helper/formatNumber";
 import { removeCart, updateCart } from "../redux/slices/shoppingCart";
 import { downPrice, resetPrice, upPrice } from "../redux/slices/totalPrice";
 import { Link } from "react-router-dom";
+import MiniBanner from "../components/MiniBanner";
 
 const CartPage = () => {
   const cartItems = useSelector((state) => state.shoppingCart.cartItemList);
@@ -57,13 +58,18 @@ const CartPage = () => {
   };
   return (
     <div>
-      <CartMiniBanner activePage="giỏ hàng" />
+      <div className="hidden lg:block">
+        <CartMiniBanner activePage="giỏ hàng" />
+      </div>
+      <div className="lg:hidden block">
+        <MiniBanner title={"Giỏ hàng"} />
+      </div>
       <div className="padding-layout">
         {cartItems && cartItems.length > 0 ? (
           <>
-            <div className="flex px-4 gap-6 mt-10 mb-10">
+            <div className="flex lg:flex-row flex-col px-4 gap-6 mt-10 mb-10">
               <div className="flex-[2] w-full">
-                <table className="table-auto border-collapse">
+                <table className="table-auto border-collapse hidden lg:block">
                   <thead>
                     <tr className="border-b">
                       <th className=" p-4">Xóa</th>
@@ -98,10 +104,16 @@ const CartPage = () => {
                             />
                           </td>
                           <td className="p-4">
-                            {item.nameProduct}{" "}
-                            {item.sizeProduct && (
-                              <p className="font-medium">{item.sizeProduct}</p>
-                            )}
+                            <div>
+                              <p className="w-[335px] truncate">
+                                {item.nameProduct}
+                              </p>
+                              {item.sizeProduct && (
+                                <p className="font-medium">
+                                  {item.sizeProduct}
+                                </p>
+                              )}
+                            </div>
                           </td>
                           <td className="p-4 text-gray-500">
                             {currencyFormatter(item.priceProduct)}
@@ -141,6 +153,76 @@ const CartPage = () => {
                       ))}
                   </tbody>
                 </table>
+                <div className="block lg:hidden">
+                  {cartItems &&
+                    cartItems.map((item) => (
+                      <div key={item.idProduct} className="flex gap-2">
+                        <div className="w-fit">
+                          <img
+                            src={item.imagesProduct[0]}
+                            alt="Sản phẩm"
+                            className="w-[100px] h-auto"
+                          />
+                        </div>
+                        <div className="text-[14px] space-y-2 flex-1">
+                          <div className="flex justify-between">
+                            <p className="text-[14px] w-[200px]">
+                              {item.nameProduct}
+                            </p>
+                            <FontAwesomeIcon
+                              icon={faX}
+                              className="mt-2"
+                              onClick={() => {
+                                const string =
+                                  item.idProduct + item.sizeProduct;
+                                dispatch(removeCart(string));
+                                dispatch(resetPrice(item));
+                              }}
+                            />
+                          </div>
+                          <div className="flex justify-between items-center border-dashed border-b-2">
+                            <p className="font-medium">Giá:</p>
+                            <p>{currencyFormatter(item.priceProduct)}</p>
+                          </div>
+                          <div className="flex justify-between items-center border-dashed border-b-2">
+                            <p className="font-medium">Số lượng:</p>
+                            <div className="flex items-center border rounded w-fit">
+                              <span
+                                className="p-2 cursor-pointer"
+                                onClick={() => handleDown(item.idProduct)}
+                              >
+                                -
+                              </span>
+                              <input
+                                type="number"
+                                value={item.quantityProduct}
+                                className="text-center border-x outline-none w-[40px]"
+                                onChange={(e) =>
+                                  handleOnChange(e, item.idProduct)
+                                }
+                                onBlur={() => handleOnBlur(item.idProduct)}
+                                min="1"
+                              />
+                              <span
+                                className="p-2 cursor-pointer"
+                                onClick={() => handleUp(item.idProduct)}
+                              >
+                                +
+                              </span>
+                            </div>
+                          </div>
+                          <div className="flex justify-between items-center border-dashed border-b-2">
+                            <p className="font-medium">Tạm tính:</p>
+                            <p className="text-green-700">
+                              {currencyFormatter(
+                                item.quantityProduct * item.priceProduct
+                              )}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                </div>
               </div>
               <div className="flex-[1] py-4">
                 <div className="border-2 px-6 py-4">

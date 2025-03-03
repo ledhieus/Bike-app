@@ -10,7 +10,7 @@ const RootLayout = () => {
     <div className="bg-[#f8f9fa]">
       <ScrollToTop/>
       <Header />
-      <div className="pt-[160px]">
+      <div className="">
         <Outlet />
         {isOpenOverlay && (
               <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-40"></div>

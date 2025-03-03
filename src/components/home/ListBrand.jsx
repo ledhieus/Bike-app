@@ -33,7 +33,7 @@ const ListBrand = () => {
   return (
     <div className="padding-layout mt-16 mb-16">
       <div className="flex flex-col items-center">
-        <p className="text-[30px] font-bold mb-10">THƯƠNG HIỆU ĐẠI LÝ</p>
+        <p className="text-[30px] font-bold mb-10 md:block hidden">THƯƠNG HIỆU ĐẠI LÝ</p>
         <div className="w-full relative group">
           <Swiper
             ref={swiperRef} // Gán ref cho Swiper
@@ -43,6 +43,13 @@ const ListBrand = () => {
             loop={true}
             autoplay={{ delay: 4000, disableOnInteraction: false }}
             grabCursor={true}
+            breakpoints={{
+              320: { slidesPerView: 2, spaceBetween: 10 }, // Dưới 320px: Hiển thị 1 slide
+              480: { slidesPerView: 2, spaceBetween: 15 }, // Dưới 480px: Hiển thị 2 slide
+              768: { slidesPerView: 3, spaceBetween: 20 }, // Dưới 768px: Hiển thị 3 slide
+              1024: { slidesPerView: 4, spaceBetween: 20 }, // Dưới 1024px: Hiển thị 4 slide
+              1280: { slidesPerView: 5, spaceBetween: 20 }, // Trên 1280px: Hiển thị 5 slide
+            }}
           >
             {brandAgency.map((item) => (
               <SwiperSlide key={item._id}>

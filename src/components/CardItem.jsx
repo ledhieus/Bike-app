@@ -39,23 +39,23 @@ const CardItem = ({ product }) => {
     <div className="relative group/card">
       <Link to={`/product/${product?.slug}`}>
         <div className="bg-white shadow-lg">
-          <div className="relative w-full h-[250px]">
-            <ImageComponent width={260} height={250} className={"w-full h-full object-cover"} src={product?.image[0]}/>
+          <div className="relative md:w-full w-fit md:h-[250px] h-fit">
+            <ImageComponent width={260} height={250} className={"md:w-full md:h-full w-[195px] h-[186px] object-cover"} src={product?.image[0]}/>
             {/* <img
               src={product?.image[0]}
               className="w-full h-full transition-opacity duration-500 ease-in-out group-hover/card:opacity-0 object-cover"
             /> */}
             <img
               src={product?.image[1]}
-              className="absolute top-0 w-full h-full left-0 opacity-0 transition-opacity duration-500 ease-in-out group-hover/card:opacity-100 object-cover"
+              className="absolute top-0 md:w-full md:h-full w-[186px] h-[186px] left-0 opacity-0 transition-opacity duration-500 ease-in-out group-hover/card:opacity-100 object-cover"
             />
           </div>
           <div className="p-4 space-y-2">
             <p className="line-clamp-2 uppercase">{product?.name}</p>
             {product?.discount ? (
               <>
-                <div className="flex gap-2">
-                  <p className="text-[#d00] font-medium line-through">
+                <div className="flex gap-2 lg:flex-row flex-col">
+                  <p className="text-[#d00] font-medium line-through md:block hidden">
                     {currencyFormatter(product?.price)}
                   </p>
                   <p className="text-[#d00] font-medium">

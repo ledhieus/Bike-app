@@ -11,10 +11,11 @@ import { error, success } from "../libs/message";
 import { getCookie } from "../helper/cookie";
 import { resetCart } from "../redux/slices/shoppingCart";
 import { initPrice } from "../redux/slices/totalPrice";
+import MiniBanner from "../components/MiniBanner";
 
 const PayPage = () => {
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
@@ -24,10 +25,10 @@ const PayPage = () => {
   const { totalPrice } = useSelector((state) => state.totalPrice);
   const cartItems = useSelector((state) => state.shoppingCart.cartItemList);
   const onSubmit = async (formData) => {
-    const tokenUser = getCookie("tokenUser")
-    if(!tokenUser){
-      alert("Bạn cần phải đăng nhập để thực hiện đơn hàng")
-      return
+    const tokenUser = getCookie("tokenUser");
+    if (!tokenUser) {
+      alert("Bạn cần phải đăng nhập để thực hiện đơn hàng");
+      return;
     }
     const filteredItems = cartItems.map(
       ({
@@ -51,25 +52,30 @@ const PayPage = () => {
       status: "pending",
     };
     console.log(postForm);
-    const response = await postCreatOrder(postForm)
-    if(response.code === 200){
-      dispatch(resetCart())
-      dispatch(initPrice())
-      success(response.message)
-      navigate("/done")
-    }else{
-      error(response.message)
+    const response = await postCreatOrder(postForm);
+    if (response.code === 200) {
+      dispatch(resetCart());
+      dispatch(initPrice());
+      success(response.message);
+      navigate("/done");
+    } else {
+      error(response.message);
     }
   };
   return (
     <div className="bg-white">
       {cartItems.length > 0 ? (
         <div>
-          <CartMiniBanner activePage="thanh toán" />
+          <div className="hidden lg:block">
+            <CartMiniBanner activePage="thanh toán" />
+          </div>
+          <div className="lg:hidden block">
+            <MiniBanner title={"Thanh Toán"} />
+          </div>
           <div className="padding-layout">
             <form
               onSubmit={handleSubmit(onSubmit)}
-              className="grid grid-cols-2 my-20 gap-4"
+              className="grid lg:grid-cols-2 grid-cols-1 my-20 gap-4"
             >
               <div className="px-4">
                 <div>
@@ -148,7 +154,9 @@ const PayPage = () => {
                               className="w-[80px]"
                             />
                             <div>
-                              <p>{item.nameProduct}</p>
+                              <p className="lg:w-[200px] xl:w-[300px] 2xl:w-[400px] md:w-[300px] w-[150px] truncate ">
+                                {item.nameProduct}
+                              </p>
                               {item.sizeProduct && (
                                 <span>{item.sizeProduct}</span>
                               )}
