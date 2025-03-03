@@ -10,8 +10,8 @@ import { Link } from "react-router-dom";
 
 const CartDrawer = ({ onClose, open }) => {
   const cartItems = useSelector((state) => state.shoppingCart.cartItemList);
-  const {totalPrice} = useSelector(state => state.totalPrice)
-  const dispatch = useDispatch()
+  const { totalPrice } = useSelector((state) => state.totalPrice);
+  const dispatch = useDispatch();
   return (
     <Drawer
       title={<p className="font-bold text-[20px]">Giỏ Hàng</p>}
@@ -22,23 +22,38 @@ const CartDrawer = ({ onClose, open }) => {
         <div>
           <div className="flex items-center justify-between px-2 py-4">
             <p className="font-bold text-black text-[22px]">Tổng tiền: </p>
-            <p  className="font-bold text-green-700 text-[22px]">{currencyFormatter(totalPrice)}</p>
+            <p className="font-bold text-green-700 text-[22px]">
+              {currencyFormatter(totalPrice)}
+            </p>
           </div>
           <div className="flex flex-col gap-4">
-          <Link to={"/cart"} className="bg-gray-100 font-medium text-black uppercase py-3 hover:bg-gray-200 text-center"><p>Xem Giỏ hàng</p></Link>
-          <Link to={"/pay"}><p className="bg-red-700 font-medium text-white uppercase py-3 text-center">Thanh toán</p></Link>
+            <Link
+              to={"/cart"}
+              className="bg-gray-100 font-medium text-black uppercase py-3 hover:bg-gray-200 text-center"
+              onClick={()=> onClose()}
+            >
+              <p>Xem Giỏ hàng</p>
+            </Link>
+            <Link to={"/pay"}>
+              <p className="bg-red-700 font-medium text-white uppercase py-3 text-center" onClick={()=> onClose()}>
+                Thanh toán
+              </p>
+            </Link>
           </div>
         </div>
       }
     >
       {cartItems.length > 0 ? (
-        <div >
+        <div>
           {cartItems.map((item) => (
             <div
               key={item.idProduct + item.sizeProduct}
               className="flex w-fit gap-2 p-2 bg-white hover:bg-gray-100 border-b"
             >
-              <img src={item.imagesProduct[0]} className="w-[80px] object-cover h-[80px]" />
+              <img
+                src={item.imagesProduct[0]}
+                className="w-[80px] object-cover h-[80px]"
+              />
               <div>
                 <p className="text-[16px]">{item.nameProduct}</p>
                 <div className="flex items-center gap-2">
@@ -48,20 +63,23 @@ const CartDrawer = ({ onClose, open }) => {
                   <p className="text-gray-500 font-medium text-[14px]">
                     x {item.quantityProduct}
                   </p>
-                  
                 </div>
-                {item.sizeProduct && <p className="font-medium">{item.sizeProduct}</p>}
+                {item.sizeProduct && (
+                  <p className="font-medium">{item.sizeProduct}</p>
+                )}
               </div>
-              <FontAwesomeIcon icon={faX} className="cursor-pointer" onClick={()=> {
-                const string = item.idProduct + item.sizeProduct
-                dispatch(removeCart(string))
-                dispatch(resetPrice(item))
-
-                }}/>
+              <FontAwesomeIcon
+                icon={faX}
+                className="cursor-pointer"
+                onClick={() => {
+                  const string = item.idProduct + item.sizeProduct;
+                  dispatch(removeCart(string));
+                  dispatch(resetPrice(item));
+                }}
+              />
             </div>
           ))}
         </div>
-        
       ) : (
         <> Chưa có sản phẩm</>
       )}

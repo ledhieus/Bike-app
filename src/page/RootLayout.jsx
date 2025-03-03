@@ -3,6 +3,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import ScrollToTop from "../../utils/scrollToTop";
 import { useSelector } from "react-redux";
+import ToolBar from "../components/ToolBar";
 
 const RootLayout = () => {
   const isOpenOverlay = useSelector(state => state.overlay.isOpenOverlay)
@@ -17,6 +18,9 @@ const RootLayout = () => {
             )}
       </div>
       <Footer />
+      <div className="lg:hidden block">
+      <ToolBar/>
+      </div>
     </div>
   );
 };

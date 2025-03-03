@@ -6,12 +6,19 @@ import { getOrder } from "../service/order";
 import { currencyFormatter } from "../helper/formatNumber";
 import { Tag } from "antd";
 import Loading from "../components/Loading";
+import { Link, useNavigate } from "react-router-dom";
 
 const AccountPage = () => {
   const [infoUser, setInfoUser] = useState(null);
   const [order, setOrder] = useState([]);
   const tokenUser = getCookie("tokenUser");
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!tokenUser) {
+      navigate("/login", { replace: true });
+    }
+  }, [tokenUser, navigate]);
   useEffect(() => {
     if (tokenUser === null) return;
     setIsLoading(true);
@@ -37,13 +44,13 @@ const AccountPage = () => {
   return (
     <div>
       <MiniBanner title={"Tài Khoản"} />
-      <div className="padding-layout my-20 px-10">
+      <div className="padding-layout my-20 lg:px-10 md:px-6 px-2">
         {isLoading ? (
           <Loading />
         ) : infoUser ? (
-          <div className="flex flex-col gap-6 p-10 bg-white shadow-md rounded-lg">
+          <div className="flex flex-col gap-6 lg:p-10 md:p-4 py-4 px-2 bg-white shadow-md rounded-lg">
             {/* Thông tin tài khoản */}
-            <div className="px-8 space-y-4 border-r-2">
+            <div className="px-8 space-y-4">
               <h2 className="text-3xl font-bold mb-4">Thông Tin Tài Khoản</h2>
               <div className="flex gap-2">
                 <p className="font-bold">Họ và tên:</p>
@@ -60,7 +67,7 @@ const AccountPage = () => {
             </div>
 
             {/* Đơn hàng */}
-            <div className="p-6">
+            <div className="md:p-6 p-2">
               <h2 className="text-3xl font-bold mb-4">Đơn hàng</h2>
 
               <div className="space-y-6">
@@ -76,11 +83,13 @@ const AccountPage = () => {
                       </p>
 
                       {/* Bảng sản phẩm */}
-                      <div className="overflow-x-auto">
-                        <table className="w-full border border-gray-300 rounded-md">
+                      <div className="overflow-x-auto w-full">
+                        <table className="w-full min-w-[600px] border border-gray-300 rounded-md">
                           <thead>
                             <tr className="bg-gray-100 text-left">
-                              <th className="px-4 py-2 border">STT</th>
+                              <th className="px-4 py-2 border text-center">
+                                STT
+                              </th>
                               <th className="px-4 py-2 border">Tên sản phẩm</th>
                               <th className="px-4 py-2 border text-center">
                                 Số lượng
@@ -99,7 +108,7 @@ const AccountPage = () => {
                                 <td className="px-4 py-2 text-center">
                                   {index + 1}
                                 </td>
-                                <td className="px-4 py-2">
+                                <td className="px-4 py-2 max-w-[180px] truncate md:max-w-full">
                                   {product.nameProduct}
                                 </td>
                                 <td className="px-4 py-2 text-center">
@@ -115,7 +124,7 @@ const AccountPage = () => {
                       </div>
 
                       {/* Trạng thái đơn hàng & Tổng tiền */}
-                      <div className="mt-4 flex justify-between items-center">
+                      <div className="mt-4 flex flex-col md:flex-row justify-between items-start md:items-center">
                         <p className="flex items-center space-x-2">
                           <span className="font-semibold">Tình trạng:</span>
                           {item.status === "pending" ? (
@@ -124,7 +133,7 @@ const AccountPage = () => {
                             <Tag color="blue">Đang giao hàng</Tag>
                           )}
                         </p>
-                        <p className="text-lg font-bold text-red-500">
+                        <p className="text-lg font-bold text-red-500 mt-2 md:mt-0">
                           Tổng tiền: {currencyFormatter(item.totalPrice)}
                         </p>
                       </div>
@@ -136,6 +145,11 @@ const AccountPage = () => {
                   </p>
                 )}
               </div>
+            </div>
+            <div className="flex justify-end">
+              <Link to={"/logout"} className="py-2 px-4 bg-red-500 text-white hover:bg-red-400 w-fit">
+                Đăng Xuất
+              </Link>
             </div>
           </div>
         ) : (

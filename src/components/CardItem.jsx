@@ -39,15 +39,15 @@ const CardItem = ({ product }) => {
     <div className="relative group/card">
       <Link to={`/product/${product?.slug}`}>
         <div className="bg-white shadow-lg">
-          <div className="relative md:w-full w-fit md:h-[250px] h-fit">
-            <ImageComponent width={260} height={250} className={"md:w-full md:h-full w-[195px] h-[186px] object-cover"} src={product?.image[0]}/>
+          <div className="relative md:w-full w-full md:h-[250px] h-fit">
+            <ImageComponent width={260} height={250} className={"w-full md:h-full h-[186px] object-cover"} src={product?.image[0]}/>
             {/* <img
               src={product?.image[0]}
               className="w-full h-full transition-opacity duration-500 ease-in-out group-hover/card:opacity-0 object-cover"
             /> */}
             <img
               src={product?.image[1]}
-              className="absolute top-0 md:w-full md:h-full w-[186px] h-[186px] left-0 opacity-0 transition-opacity duration-500 ease-in-out group-hover/card:opacity-100 object-cover"
+              className="absolute top-0 w-full md:h-full h-[186px] left-0 opacity-0 transition-opacity duration-500 ease-in-out group-hover/card:opacity-100 object-cover"
             />
           </div>
           <div className="p-4 space-y-2">
